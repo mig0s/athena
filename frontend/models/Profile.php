@@ -38,6 +38,7 @@ use yii\db\Expression;
  * @property Gender $gender
  * @property Group $group
  * @property University $university
+ * @property User $user
  */
 class Profile extends \yii\db\ActiveRecord
 {
@@ -64,8 +65,7 @@ class Profile extends \yii\db\ActiveRecord
             [['gender_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gender::className(), 'targetAttribute' => ['gender_id' => 'id']],
             [['group_id'], 'exist', 'skipOnError' => true, 'targetClass' => Group::className(), 'targetAttribute' => ['group_id' => 'id']],
             [['university_id'], 'exist', 'skipOnError' => true, 'targetClass' => University::className(), 'targetAttribute' => ['university_id' => 'id']],
-            [['gender_id'],'in', 'range'=>array_keys($this->getGenderList())],
-            [['birthdate'], 'date', 'format'=>'Y-m-d'],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -154,28 +154,6 @@ class Profile extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-
-    public function getGenderName()
-    {
-        return $this->gender->gender_name;
-    }
-
-    /**
-     * get list of genders for dropdown
-     */
-
-    public static function getGenderList()
-    {
-
-        $droptions = Gender::find()->asArray()->all();
-        return ArrayHelper::map($droptions, 'id', 'gender_name');
-
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
@@ -219,6 +197,27 @@ class Profile extends \yii\db\ActiveRecord
         $url = Url::to(['profile/update', 'id'=>$this->id]);
         $options = [];
         return Html::a($this->id, $url, $options);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+
+    public function getGenderName()
+    {
+        return $this->gender->gender_name;
+    }
+
+    /**
+     * get list of genders for dropdown
+     */
+
+    public static function getGenderList()
+    {
+
+        $droptions = Gender::find()->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'gender_name');
+
     }
 
 }
