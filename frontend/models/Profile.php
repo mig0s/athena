@@ -83,10 +83,10 @@ class Profile extends \yii\db\ActiveRecord
             'gender_id' => 'Gender ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'ic_passport' => 'Ic Passport',
-            'expiry' => 'Expiry',
-            'mobile_num' => 'Mobile Num',
-            'home_num' => 'Home Num',
+            'ic_passport' => 'IC / Passport',
+            'expiry' => 'Account Expiry',
+            'mobile_num' => 'Mobile Number',
+            'home_num' => 'Home Number',
             'nationality' => 'Nationality',
             'race' => 'Race',
             'city' => 'City',
@@ -117,6 +117,15 @@ class Profile extends \yii\db\ActiveRecord
                 'value' => new Expression('NOW()'),
             ],
         ];
+    }
+
+    public function beforeValidate()
+    {
+        if ($this->birthdate != null) {
+            $new_date_format = date('Y-m-d', strtotime($this->birthdate));
+            $this->birthdate = $new_date_format;
+        }
+        return parent::beforeValidate();
     }
 
     /**
@@ -218,6 +227,11 @@ class Profile extends \yii\db\ActiveRecord
         $droptions = Gender::find()->asArray()->all();
         return ArrayHelper::map($droptions, 'id', 'gender_name');
 
+    }
+
+    public function actionIndex()
+    {
+        return $this->render('index');
     }
 
 }
