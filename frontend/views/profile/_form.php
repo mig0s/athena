@@ -18,9 +18,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model,'birthdate')-> widget(DatePicker::className(),[ 'dateFormat' => 'yyyy-MM-dd', 'clientOptions' => [ 'yearRange' => '-115:+0', 'changeYear' => true] ]) ?>
+    <?=''// $form->field($model,'birthdate')-> widget(DatePicker::className(),[ 'dateFormat' => 'yyyy-MM-dd', 'clientOptions' => [ 'yearRange' => '-115:+0', 'changeYear' => true] ]) ?>
 
-    <?=''// $form->field($model, 'birthdate')->textInput() ?>
+    <?= $form->field($model, 'birthdate')->textInput() ?>
     * Please Use YYYY-MM-DD format<br />
     <br />
     <?= $form->field($model, 'gender_id')->dropDownList($model->genderList, ['prompt' => 'Please Choose One']) ?>
@@ -31,7 +31,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'ic_passport')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'expiry')->textInput() ?>
+    <?=''// $form->field($model, 'expiry')->textInput() ?>
 
     <?= $form->field($model, 'mobile_num')->textInput(['maxlength' => true]) ?>
 

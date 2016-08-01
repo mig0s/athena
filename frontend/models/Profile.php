@@ -229,6 +229,11 @@ class Profile extends \yii\db\ActiveRecord
 
     }
 
+    public static function getFristName()
+    {
+
+    }
+
     public function actionIndex()
     {
         return $this->render('index');

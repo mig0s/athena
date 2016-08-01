@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use frontend\models\Profile;
 use yii;
 use backend\models\Role;
 use backend\models\Status;
@@ -9,6 +10,12 @@ use common\models\User;
 
 class ValueHelpers
 {
+
+    public static function getFisrtName($profileId)
+    {
+        $profile = Profile::findOne($profileId);
+        return $profile->first_name;
+    }
 
     public static function roleMatch($role_name)
     {
