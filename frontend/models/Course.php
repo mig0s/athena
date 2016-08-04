@@ -3,12 +3,12 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "course".
  *
  * @property integer $id
- * @property integer $user_type_id
  * @property string $name
  * @property integer $loan_limit
  * @property integer $university_id
@@ -33,9 +33,9 @@ class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_type_id', 'name', 'loan_limit', 'university_id'], 'required'],
-            [['user_type_id', 'loan_limit', 'university_id'], 'integer'],
+            [['name', 'loan_limit', 'university_id'], 'required'],
             [['name'], 'string'],
+            [['loan_limit', 'university_id'], 'integer'],
             [['university_id'], 'exist', 'skipOnError' => true, 'targetClass' => University::className(), 'targetAttribute' => ['university_id' => 'id']],
         ];
     }
@@ -47,10 +47,10 @@ class Course extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_type_id' => 'User Type ID',
             'name' => 'Name',
             'loan_limit' => 'Loan Limit',
             'university_id' => 'University ID',
+            'university.name' => 'University',
         ];
     }
 
@@ -76,5 +76,11 @@ class Course extends \yii\db\ActiveRecord
     public function getProfiles()
     {
         return $this->hasMany(Profile::className(), ['course_id' => 'id']);
+    }
+
+    public static function getUniversityList()
+    {
+        $droptions = University::find()->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'name');
     }
 }

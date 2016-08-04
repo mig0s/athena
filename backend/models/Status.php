@@ -42,7 +42,7 @@ class Status extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'status_name' => 'Status Name',
+            'status_name' => 'Status',
             'status_value' => 'Status Value',
         ];
     }

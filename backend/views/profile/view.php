@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'first_name:ntext',
             'last_name:ntext',
             'birthdate',
-            'gender_id',
+            'gender.gender_name',
             'created_at',
             'updated_at',
             'ic_passport',
@@ -45,9 +45,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'city:ntext',
             'address:ntext',
             'postal_code',
-            'group_id',
-            'university_id',
-            'course_id',
+            'group.name',
+            'university.name',
+            'course.name',
         ],
     ]) ?>
 

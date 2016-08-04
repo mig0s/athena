@@ -92,9 +92,12 @@ class Profile extends \yii\db\ActiveRecord
             'city' => 'City',
             'address' => 'Address',
             'postal_code' => 'Postal Code',
-            'group_id' => 'Group ID',
-            'university_id' => 'University ID',
-            'course_id' => 'Course ID',
+            'group_id' => 'Group',
+            'university_id' => 'University',
+            'course_id' => 'Course',
+            'group.name' => Yii::t('app', 'Group'),
+            'course.name' => Yii::t('app', 'Course'),
+            'university.name' => Yii::t('app', 'University'),
             'genderName' => Yii::t('app', 'Gender'),
             'userLink' => Yii::t('app', 'User'),
             'profileIdLink' => Yii::t('app', 'Profile'),
@@ -229,9 +232,22 @@ class Profile extends \yii\db\ActiveRecord
 
     }
 
-    public static function getFristName()
+    public static function getUniversityList()
     {
+        $droptions = University::find()->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'name');
+    }
 
+    public static function getCourseList()
+    {
+        $droptions = Course::find()->orderBy('university_id')->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'name');
+    }
+
+    public static function getGroupList()
+    {
+        $droptions = Group::find()->orderBy('course_group_id')->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'name');
     }
 
     public function actionIndex()

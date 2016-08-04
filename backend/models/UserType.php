@@ -43,7 +43,7 @@ class UserType extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_type_name' => 'User Type Name',
+            'user_type_name' => 'User Type',
             'user_type_value' => 'User Type Value',
         ];
     }

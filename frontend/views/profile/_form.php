@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Profile */
@@ -18,9 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
 
-    <?=''// $form->field($model,'birthdate')-> widget(DatePicker::className(),[ 'dateFormat' => 'yyyy-MM-dd', 'clientOptions' => [ 'yearRange' => '-115:+0', 'changeYear' => true] ]) ?>
-
-    <?= $form->field($model, 'birthdate')->textInput() ?>
+    <?= $form->field($model,'birthdate')-> widget(DatePicker::className(),[ 'dateFormat' => 'yyyy-MM-dd', 'clientOptions' => [ 'yearRange' => '-115:+0', 'changeYear' => true] ]) ?>
     * Please Use YYYY-MM-DD format<br />
     <br />
     <?= $form->field($model, 'gender_id')->dropDownList($model->genderList, ['prompt' => 'Please Choose One']) ?>

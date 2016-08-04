@@ -18,7 +18,7 @@ class CourseSearch extends Course
     public function rules()
     {
         return [
-            [['id', 'user_type_id', 'loan_limit', 'university_id'], 'integer'],
+            [['id', 'loan_limit', 'university_id'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -60,7 +60,6 @@ class CourseSearch extends Course
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_type_id' => $this->user_type_id,
             'loan_limit' => $this->loan_limit,
             'university_id' => $this->university_id,
         ]);

@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "group".
@@ -46,6 +47,7 @@ class Group extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'course_group_id' => 'Course Group ID',
+            'course.name' => 'Course',
         ];
     }
 
@@ -55,6 +57,12 @@ class Group extends \yii\db\ActiveRecord
     public function getCourseGroup()
     {
         return $this->hasOne(Course::className(), ['id' => 'course_group_id']);
+    }
+
+    public static function getCourseList()
+    {
+        $droptions = Course::find()->orderBy('university_id')->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'name');
     }
 
     /**
