@@ -27,16 +27,31 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
+    if (!Yii::$app->user->isGuest) {
+        $is_admin = \common\models\PermissionHelpers::requireMinimumRole('Admin');
+    }
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => '{AAdmin}',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-    ];
+    if (!Yii::$app->user->isGuest && $is_admin) {
+        $menuItems[] = ['label' => 'RBAC', 'items' => [
+            ['label' => 'Users', 'url' => ['user/index']],
+            ['label' => 'Profiles', 'url' => ['profile/index']],
+            ['label' => 'Roles', 'url' => ['role/index']],
+            ['label' => 'User Types', 'url' => ['user-type/index']],
+            ['label' => 'Statuses', 'url' => ['status/index']],
+        ]];
+
+        $menuItems[] = ['label' => 'Universities', 'items' => [
+            ['label' => 'Universities', 'url' => ['university/index']],
+            ['label' => 'Courses', 'url' => ['course/index']],
+            ['label' => 'Groups', 'url' => ['group/index']],
+        ]];
+    }
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {

@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $name
  *
+ * @property Course[] $courses
  * @property Profile[] $profiles
  */
 class University extends \yii\db\ActiveRecord
@@ -42,6 +43,14 @@ class University extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCourses()
+    {
+        return $this->hasMany(Course::className(), ['university_id' => 'id']);
     }
 
     /**

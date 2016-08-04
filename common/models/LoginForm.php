@@ -82,7 +82,7 @@ class LoginForm extends Model
         if (($this->validate()) && PermissionHelpers::requireMinimumRole('Admin', $this->getUser()->id)) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         } else {
-            throw new NotFoundHttpException('You shall not pass!');
+            throw new NotFoundHttpException('You Shall Not Pass.');
         }
     }
 }

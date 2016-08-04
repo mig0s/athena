@@ -9,7 +9,9 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property integer $course_group_id
  *
+ * @property Course $courseGroup
  * @property Profile[] $profiles
  */
 class Group extends \yii\db\ActiveRecord
@@ -28,8 +30,10 @@ class Group extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name', 'course_group_id'], 'required'],
             [['name'], 'string'],
+            [['course_group_id'], 'integer'],
+            [['course_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_group_id' => 'id']],
         ];
     }
 
@@ -41,7 +45,16 @@ class Group extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'course_group_id' => 'Course Group ID',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCourseGroup()
+    {
+        return $this->hasOne(Course::className(), ['id' => 'course_group_id']);
     }
 
     /**

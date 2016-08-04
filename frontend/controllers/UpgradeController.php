@@ -29,7 +29,6 @@ class UpgradeController extends \yii\web\Controller
 
                 ],
             ],
-
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

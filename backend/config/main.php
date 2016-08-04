@@ -17,7 +17,7 @@ return [
             'csrfParam' => '_csrf-backend',
             'csrfCookie' => [
                 'httpOnly' => true,
-                'path' => '/admin',
+                'path' => '/library/admin',
             ],
         ],
         'user' => [
@@ -25,7 +25,7 @@ return [
             'enableAutoLogin' => true,
             'identityCookie' => [
                 'name' => '_identity-backend',
-                'path' => '/admin',
+                'path' => '/library/admin',
                 'httpOnly' => true,
             ],
         ],
@@ -33,7 +33,7 @@ return [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
             'cookieParams' => [
-                'path' => '/admin',
+                'path' => '/library/admin',
             ],
         ],
         'log' => [

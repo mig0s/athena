@@ -11,7 +11,10 @@ use Yii;
  * @property integer $user_type_id
  * @property string $name
  * @property integer $loan_limit
+ * @property integer $university_id
  *
+ * @property University $university
+ * @property Group[] $groups
  * @property Profile[] $profiles
  */
 class Course extends \yii\db\ActiveRecord
@@ -30,9 +33,10 @@ class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_type_id', 'name', 'loan_limit'], 'required'],
-            [['user_type_id', 'loan_limit'], 'integer'],
+            [['user_type_id', 'name', 'loan_limit', 'university_id'], 'required'],
+            [['user_type_id', 'loan_limit', 'university_id'], 'integer'],
             [['name'], 'string'],
+            [['university_id'], 'exist', 'skipOnError' => true, 'targetClass' => University::className(), 'targetAttribute' => ['university_id' => 'id']],
         ];
     }
 
@@ -46,7 +50,24 @@ class Course extends \yii\db\ActiveRecord
             'user_type_id' => 'User Type ID',
             'name' => 'Name',
             'loan_limit' => 'Loan Limit',
+            'university_id' => 'University ID',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUniversity()
+    {
+        return $this->hasOne(University::className(), ['id' => 'university_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGroups()
+    {
+        return $this->hasMany(Group::className(), ['course_group_id' => 'id']);
     }
 
     /**
