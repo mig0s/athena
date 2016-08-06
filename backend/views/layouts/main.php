@@ -32,7 +32,7 @@ AppAsset::register($this);
     }
     NavBar::begin([
         'brandLabel' => '{AAdmin}',
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandUrl' => '/library/admin/gii', //Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],

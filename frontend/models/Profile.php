@@ -75,7 +75,7 @@ class Profile extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => 'Profile ID',
             'user_id' => 'User ID',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',

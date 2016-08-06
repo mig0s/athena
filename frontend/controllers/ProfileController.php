@@ -5,7 +5,7 @@ namespace frontend\controllers;
 use common\models\RecordHelpers;
 use Yii;
 use frontend\models\Profile;
-use frontend\models\ProfileSearch;
+use frontend\models\search\ProfileSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
