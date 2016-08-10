@@ -38,30 +38,30 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'num_of_copies')->textInput() ?>
 
-    <?= $form->field($model, 'created_by')->textInput() ?>
+    <?=''// $form->field($model, 'created_by')->textInput() ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?=''// $form->field($model, 'created_at')->textInput() ?>
 
-    <?= $form->field($model, 'edited_by')->textInput() ?>
+    <?=''// $form->field($model, 'edited_by')->textInput() ?>
 
-    <?= $form->field($model, 'edited_at')->textInput() ?>
+    <?=''// $form->field($model, 'edited_at')->textInput() ?>
 
     <?= $form->field($model, 'accompanying_materials')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'subject_id')->textInput() ?>
+    <?= $form->field($model, 'subject_id')->dropDownList($model->getSubjectList(), ['prompt' => 'Please Select One']) ?>
 
-    <?= $form->field($model, 'spot_tag_id')->textInput() ?>
+    <?= $form->field($model, 'spot_tag_id')->dropDownList($model->getSpotTagList(), ['prompt' => 'Please Select One']) ?>
 
-    <?= $form->field($model, 'location_id')->textInput() ?>
+    <?= $form->field($model, 'location_id')->dropDownList($model->getLocationList(), ['prompt' => 'Please Select One']) ?>
 
-    <?= $form->field($model, 'collection_id')->textInput() ?>
+    <?= $form->field($model, 'collection_id')->dropDownList($model->getCollectionList(), ['prompt' => 'Please Select One']) ?>
 
-    <?= $form->field($model, 'category_id')->textInput() ?>
+    <?= $form->field($model, 'category_id')->dropDownList($model->getCategoryList(), ['prompt' => 'Please Select One']) ?>
 
-    <?= $form->field($model, 'sub_category_id')->textInput() ?>
+    <?= $form->field($model, 'sub_category_id')->dropDownList($model->getSubCategoryList(), ['prompt' => 'Please Select One']) ?>
 
-    <?= $form->field($model, 'item_status_id')->textInput() ?>
-
+    <?= $form->field($model, 'item_status_id')->dropDownList($model->getItemStatusList(), ['prompt' => 'Please Select One']) ?>
+    <?php //dropDownList($model->genderList, ['prompt' => 'Please Choose One']) ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "item".
@@ -107,17 +108,26 @@ class Item extends \yii\db\ActiveRecord
             'edition' => 'Edition',
             'num_of_copies' => 'Num Of Copies',
             'created_by' => 'Created By',
+            'createdByName' => 'Created By',
             'created_at' => 'Created At',
             'edited_by' => 'Edited By',
+            'editedByName' => 'Edited By',
             'edited_at' => 'Edited At',
             'accompanying_materials' => 'Accompanying Materials',
-            'subject_id' => 'Subject ID',
-            'spot_tag_id' => 'Spot Tag ID',
-            'location_id' => 'Location ID',
-            'collection_id' => 'Collection ID',
-            'category_id' => 'Category ID',
-            'sub_category_id' => 'Sub Category ID',
-            'item_status_id' => 'Item Status ID',
+            'subject_id' => 'Subject',
+            'subjectName' => 'Subject',
+            'spot_tag_id' => 'Spot Tag',
+            'spotTagDesc' => 'Spot Tag Info',
+            'location_id' => 'Location',
+            'locationName' => 'Location',
+            'collection_id' => 'Collection',
+            'collectionName' => 'Collection',
+            'category_id' => 'Category',
+            'categoryName' => 'Category',
+            'sub_category_id' => 'Sub Category',
+            'sub_category_name' => 'Sub Category',
+            'item_status_id' => 'Item Status',
+            'itemStatusName' => 'Status',
         ];
     }
 
@@ -137,6 +147,17 @@ class Item extends \yii\db\ActiveRecord
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
+    public function getCategoryName()
+    {
+        return $this->category->name;
+    }
+
+    public function getCategoryList()
+    {
+        $droptions = Category::find()->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'name');
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -145,12 +166,27 @@ class Item extends \yii\db\ActiveRecord
         return $this->hasOne(Collection::className(), ['id' => 'collection_id']);
     }
 
+    public function getCollectionName()
+    {
+        return $this->collection->name;
+    }
+
+    public function getCollectionList()
+    {
+        $droptions = Collection::find()->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'name');
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getCreatedBy()
     {
         return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
+
+    public function getCreatedByName()
+    {
+        $this->createdBy->username;
     }
 
     /**
@@ -161,12 +197,28 @@ class Item extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'edited_by']);
     }
 
+    public function getEditedByName()
+    {
+        return $this->editedBy->username;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getItemStatus()
     {
         return $this->hasOne(ItemStatus::className(), ['id' => 'item_status_id']);
+    }
+
+    public function getItemStatusName()
+    {
+        return $this->itemStatus->name;
+    }
+
+    public function getItemStatusList()
+    {
+        $droptions = ItemStatus::find()->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'name');
     }
 
     /**
@@ -177,12 +229,33 @@ class Item extends \yii\db\ActiveRecord
         return $this->hasOne(SettingsVenues::className(), ['id' => 'location_id']);
     }
 
+    public function getLocationName() {
+        return $this->location->name;
+    }
+
+    public function getLocationList()
+    {
+        $droptions = SettingsVenues::find()->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'name');
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getSpotTag()
     {
         return $this->hasOne(SpotTag::className(), ['id' => 'spot_tag_id']);
+    }
+
+    public function getSpotTagDesc()
+    {
+        return $this->spotTag->description;
+    }
+
+    public function getSpotTagList()
+    {
+        $droptions = SpotTag::find()->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'colour');
     }
 
     /**
@@ -193,12 +266,33 @@ class Item extends \yii\db\ActiveRecord
         return $this->hasOne(SubCategory::className(), ['id' => 'sub_category_id']);
     }
 
+    public function getSubCategoryName()
+    {
+        return $this->subCategory->name;
+    }
+
+    public function getSubCategoryList()
+    {
+        $droptions = SubCategory::find()->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'name');
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getSubject()
     {
         return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
+    }
+
+    public function getSubjectName()
+    {
+        return $this->subject->name;
+    }
+
+    public function getSubjectList()
+    {
+        $droptions = Subject::find()->asArray()->all();
+        return ArrayHelper::map($droptions,'id', 'name');
     }
 
     /**

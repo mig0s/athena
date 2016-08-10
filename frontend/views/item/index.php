@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel frontend\models\search\ItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Items';
+$this->title = 'Books';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="item-index">
@@ -15,20 +15,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Item', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'title',
             'author',
-            'editor',
-            'publisher',
+            // 'editor',
+            // 'publisher',
             // 'pub_place',
             // 'pub_year',
             // 'price',
@@ -48,9 +45,8 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'collection_id',
             // 'category_id',
             // 'sub_category_id',
-            // 'item_status_id',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            'itemStatusName',
+            ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

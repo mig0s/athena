@@ -10,10 +10,6 @@ $this->title = 'Athena';
 
         <p><img width="200" src="https://pp.vk.me/c637527/v637527220/4a14/K2eYxvYexvA.jpg"></p>
 
-        <h1>Library Mangement</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
     </div>
 
     <div class="body-content">
