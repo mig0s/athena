@@ -51,6 +51,11 @@ AppAsset::register($this);
             ['label' => 'Courses', 'url' => ['course/index']],
             ['label' => 'Groups', 'url' => ['group/index']],
         ]];
+
+        $menuItems[] = ['label' => 'Settings', 'items' => [
+            ['label' => 'Categories', 'url' => ['category/index']],
+            ['']
+        ]];
     }
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
