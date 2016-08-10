@@ -46,15 +46,23 @@ AppAsset::register($this);
             ['label' => 'Statuses', 'url' => ['status/index']],
         ]];
 
-        $menuItems[] = ['label' => 'Courses', 'items' => [
+        $menuItems[] = ['label' => 'Settings', 'items' => [
+            ['label' => 'Collections', 'url' => ['collection/index']],
+            ['label' => 'Categories', 'url' => ['category/index']],
+            ['label' => 'Subcategories', 'url' => ['sub-category/index']],
+            ['label' => 'Subjects', 'url' => ['subject/index']],
             ['label' => 'Universities', 'url' => ['university/index']],
             ['label' => 'Courses', 'url' => ['course/index']],
             ['label' => 'Groups', 'url' => ['group/index']],
+            ['label' => 'Related items', 'url' => ['item-pairs/index']],
+            ['label' => 'Item Statuses', 'url' => ['item-status/index']],
+            ['label' => 'Spot Tags', 'url' => ['spot-tag/index']],
+            ['label' => 'Fines' ,'url' => ['fine/index']],
         ]];
 
-        $menuItems[] = ['label' => 'Settings', 'items' => [
-            ['label' => 'Categories', 'url' => ['category/index']],
-            ['']
+        $menuItems[] = ['label' => 'Loans & Reservations', 'items' => [
+            ['label' => 'Loans', 'url' => ['item-loan/index']],
+            ['label' => 'Reservations', 'url' => ['reservation/index']],
         ]];
     }
     if (Yii::$app->user->isGuest) {
