@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'spot_tag_id',
             // 'location_id',
             // 'collection_id',
-            // 'category_id',
+             'category_id',
             // 'sub_category_id',
             'itemStatusName',
             ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],

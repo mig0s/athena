@@ -154,7 +154,7 @@ class Item extends \yii\db\ActiveRecord
 
     public function getCategoryList()
     {
-        $droptions = Category::find()->asArray()->all();
+        $droptions = Category::find()->orderBy('name')->asArray()->all();
         return ArrayHelper::map($droptions, 'id', 'name');
     }
 
@@ -199,7 +199,9 @@ class Item extends \yii\db\ActiveRecord
 
     public function getEditedByName()
     {
-        return $this->editedBy->username;
+        if (!is_null($this->editedBy)) {
+            return $this->editedBy->username;
+        }
     }
 
     /**
@@ -273,7 +275,7 @@ class Item extends \yii\db\ActiveRecord
 
     public function getSubCategoryList()
     {
-        $droptions = SubCategory::find()->asArray()->all();
+        $droptions = SubCategory::find()->orderBy('name')->asArray()->all();
         return ArrayHelper::map($droptions, 'id', 'name');
     }
     /**

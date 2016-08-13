@@ -18,7 +18,7 @@ class SubCategorySearch extends SubCategory
     public function rules()
     {
         return [
-            [['id', 'collection_id', 'category_id'], 'integer'],
+            [['id', 'category_id'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -60,7 +60,6 @@ class SubCategorySearch extends SubCategory
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'collection_id' => $this->collection_id,
             'category_id' => $this->category_id,
         ]);
 

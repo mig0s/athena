@@ -8,9 +8,8 @@ use Yii;
  * This is the model class for table "sub_category".
  *
  * @property integer $id
- * @property integer $collection_id
- * @property integer $category_id
  * @property string $name
+ * @property integer $category_id
  *
  * @property Item[] $items
  * @property Category $category
@@ -31,9 +30,9 @@ class SubCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['collection_id', 'category_id'], 'integer'],
-            [['category_id', 'name'], 'required'],
+            [['name', 'category_id'], 'required'],
             [['name'], 'string'],
+            [['category_id'], 'integer'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
@@ -45,9 +44,8 @@ class SubCategory extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'collection_id' => 'Collection ID',
-            'category_id' => 'Category ID',
             'name' => 'Name',
+            'category_id' => 'Category ID',
         ];
     }
 

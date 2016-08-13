@@ -8,10 +8,12 @@ use Yii;
  * This is the model class for table "category".
  *
  * @property integer $id
- * @property string $code
  * @property string $name
+ * @property integer $collection_id
  *
+ * @property Collection $collection
  * @property Item[] $items
+ * @property SubCategory[] $subCategories
  */
 class Category extends \yii\db\ActiveRecord
 {
@@ -29,9 +31,10 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'name'], 'required'],
+            [['name', 'collection_id'], 'required'],
             [['name'], 'string'],
-            [['code'], 'string', 'max' => 20],
+            [['collection_id'], 'integer'],
+            [['collection_id'], 'exist', 'skipOnError' => true, 'targetClass' => Collection::className(), 'targetAttribute' => ['collection_id' => 'id']],
         ];
     }
 
@@ -42,9 +45,17 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
             'name' => 'Name',
+            'collection_id' => 'Collection ID',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCollection()
+    {
+        return $this->hasOne(Collection::className(), ['id' => 'collection_id']);
     }
 
     /**
@@ -53,5 +64,13 @@ class Category extends \yii\db\ActiveRecord
     public function getItems()
     {
         return $this->hasMany(Item::className(), ['category_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSubCategories()
+    {
+        return $this->hasMany(SubCategory::className(), ['category_id' => 'id']);
     }
 }
