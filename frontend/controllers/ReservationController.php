@@ -130,6 +130,12 @@ class ReservationController extends Controller
      */
     public function actionDelete($id)
     {
+        $item = $this->findModel($id)->item_id;
+
+        $record = Item::findOne($item);
+        $record->item_status_id = 1;
+        $record->update();
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
