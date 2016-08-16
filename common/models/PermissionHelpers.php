@@ -63,7 +63,7 @@ class PermissionHelpers
     {
 
         $connection = \Yii::$app->db;
-        $userid = Yii::$app->user->identity->id;
+        $userid = Yii::$app->user->id;
         $sql = "SELECT id FROM $model_name WHERE user_id=:userid AND id=:model_id";
         $command = $connection->createCommand($sql);
         $command->bindValue(":userid", $userid);

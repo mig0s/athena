@@ -67,7 +67,7 @@ class ReservationController extends Controller
             return $this->render('view', [
                 'model' => $this->findModel($id),
             ]);
-        } elseif ($user == Yii::$app->user->id) {
+        } elseif (PermissionHelpers::userMustBeOwner('reservation', $this->findModel($id)->id)) { //($user == Yii::$app->user->id)
             return $this->render('view', [
                 'model' => $this->findModel($id),
             ]);

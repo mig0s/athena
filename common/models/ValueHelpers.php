@@ -14,7 +14,10 @@ class ValueHelpers
     public static function getFisrtName($profileId)
     {
         $profile = Profile::findOne($profileId);
-        return $profile->first_name;
+        if (!is_null($profile)) { return $profile->first_name;
+        } else {
+            return Yii::$app->user->identity->username;
+        }
     }
 
     public static function roleMatch($role_name)
