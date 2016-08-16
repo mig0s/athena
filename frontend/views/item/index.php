@@ -11,6 +11,7 @@ use yii\bootstrap\Collapse;
 
 $this->title = 'Books';
 $this->params['breadcrumbs'][] = $this->title;
+$url = ['reservation/create?item='.'id'];
 ?>
 <div class="item-index">
 
@@ -55,7 +56,22 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'category_id',
             // 'sub_category_id',
             'itemStatusName',
-            ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}{reserve}',
+                'buttons' => [
+                    'reserve' => function ($url, $model) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-arrow-down"></span>',
+                            ['reservation/create', 'item' => $model->id],
+                            [
+                                'title' => 'Reserve',
+                                'data-pjax' => '0',
+                            ]
+                        );
+                    },
+                ],
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

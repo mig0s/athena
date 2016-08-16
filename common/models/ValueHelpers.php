@@ -100,5 +100,9 @@ class ValueHelpers
 
     }
 
+    public static function isAvailable($item)
+    {
+        return Item::findOne($item)->item_status_id == 1 ? true : false;
+    }
 }
 

@@ -2,14 +2,18 @@
 
 namespace frontend\controllers;
 
+use common\models\Item;
 use Yii;
 use common\models\Reservation;
 use frontend\models\search\ReservationSearch;
+use yii\base\ErrorException;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use common\models\PermissionHelpers;
+use common\models\ValueHelpers;
 
 /**
  * ReservationController implements the CRUD actions for Reservation model.
@@ -79,15 +83,23 @@ class ReservationController extends Controller
      */
     public function actionCreate($item)
     {
-        $model = new Reservation();
+        if (ValueHelpers::isAvailable($item)) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model = new Reservation();
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                $record = Item::findOne($item);
+                $record->item_status_id = 2;
+                $record->update();
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                    'item_id' => $item,
+                ]);
+            }
         } else {
-            return $this->render('create', [
-                'model' => $model,
-                'item_id' => $item,
-            ]);
+            throw new ForbiddenHttpException('The item is not available!');
         }
     }
 
