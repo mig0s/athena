@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "category".
@@ -56,6 +57,12 @@ class Category extends \yii\db\ActiveRecord
     public function getCollection()
     {
         return $this->hasOne(Collection::className(), ['id' => 'collection_id']);
+    }
+
+    public function getCollectionList()
+    {
+        $droptions = Collection::find()->orderBy('name')->asArray()->all();
+        return ArrayHelper::map($droptions, 'id', 'name');
     }
 
     /**
