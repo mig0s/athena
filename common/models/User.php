@@ -11,6 +11,10 @@ use yii\helpers\Security;
 use backend\models\Role;
 use backend\models\Status;
 use backend\models\UserType;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use yii\bootstrap\Html;
+
 /**
  * User model
  *
@@ -96,10 +100,13 @@ class User extends ActiveRecord implements IdentityInterface
             'profileId' => Yii::t('app', 'Profile'),
             'profileLink' => Yii::t('app', 'Profile'),
             'userLink' => Yii::t('app', 'User'),
-            'username' => Yii::t('app', 'User'),
+            'username' => Yii::t('app', 'Username'),
             'userTypeName' => Yii::t('app', 'User Type'),
             'userTypeId' => Yii::t('app', 'User Type'),
             'userIdLink' => Yii::t('app', 'ID'),
+            'status_id' => Yii::t('app', 'Status'),
+            'role_id' => Yii::t('app', 'Role'),
+            'user_type_id' => Yii::t('app', 'User Type'),
 
         ];
     }

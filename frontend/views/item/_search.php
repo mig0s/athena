@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?php // $form->field($model, 'id') ?>
 
     <?= $form->field($model, 'title') ?>
 
@@ -25,9 +25,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'publisher') ?>
 
-    <?php // echo $form->field($model, 'pub_place') ?>
+    <?php echo $form->field($model, 'pub_place') ?>
 
-    <?php // echo $form->field($model, 'pub_year') ?>
+    <?php echo $form->field($model, 'pub_year') ?>
 
     <?php // echo $form->field($model, 'price') ?>
 
@@ -35,9 +35,9 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'price_sgd') ?>
 
-    <?php // echo $form->field($model, 'isbn') ?>
+    <?php echo $form->field($model, 'isbn') ?>
 
-    <?php // echo $form->field($model, 'edition') ?>
+    <?php echo $form->field($model, 'edition') ?>
 
     <?php // echo $form->field($model, 'num_of_copies') ?>
 
@@ -49,21 +49,21 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'edited_at') ?>
 
-    <?php // echo $form->field($model, 'accompanying_materials') ?>
+    <?php echo $form->field($model, 'accompanying_materials') ?>
 
-    <?php // echo $form->field($model, 'subject_id') ?>
+    <?php echo $form->field($model, 'subject_id')->dropDownList($model->subjectList, ['prompt' => 'Please Select One']) ?>
 
-    <?php // echo $form->field($model, 'spot_tag_id') ?>
+    <?php echo $form->field($model, 'spot_tag_id')->dropDownList($model->spotTagList, ['prompt' => 'Please Select One']) ?>
 
     <?php // echo $form->field($model, 'location_id') ?>
 
-    <?php // echo $form->field($model, 'collection_id') ?>
+    <?php echo $form->field($model, 'collection_id')->dropDownList($model->collectionList, ['prompt' => 'Please Select One']) ?>
 
-    <?php // echo $form->field($model, 'category_id') ?>
+    <?php echo $form->field($model, 'category_id')->dropDownList($model->categoryList, ['prompt' => 'Please Select One']) ?>
 
-    <?php // echo $form->field($model, 'sub_category_id') ?>
+    <?php echo $form->field($model, 'sub_category_id')->dropDownList($model->subCategoryList, ['prompt' => 'Please Select One']) ?>
 
-    <?php // echo $form->field($model, 'item_status_id') ?>
+    <?php echo $form->field($model, 'item_status_id')->dropDownList($model->itemStatusList, ['prompt' => 'Please Select One']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

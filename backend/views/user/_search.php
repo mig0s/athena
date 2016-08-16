@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?php //echo $form->field($model, 'id') ?>
 
     <?= $form->field($model, 'username') ?>
 
@@ -25,13 +25,13 @@ use yii\widgets\ActiveForm;
 
     <?php //echo $form->field($model, 'password_reset_token') ?>
 
-    <?php //  echo $form->field($model, 'email') ?>
+    <?php  echo $form->field($model, 'email') ?>
 
-    <?php // echo $form->field($model, 'status.name') ?>
+    <?php echo $form->field($model, 'status_id')->dropDownList($model->statusList, ['prompt' => 'Please Select One']) ?>
 
-    <?php //  echo $form->field($model, 'role.name') ?>
+    <?php  echo $form->field($model, 'role_id')->dropDownList($model->roleList, ['prompt' => 'Please Select One']) ?>
 
-    <?php //  echo $form->field($model, 'userTypeName') ?>
+    <?php  echo $form->field($model, 'user_type_id')->dropDownList($model->userTypeList, ['prompt' => 'Please SelectOne']) ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 
