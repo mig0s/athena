@@ -3,12 +3,14 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\ReservationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Reservations';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="reservation-index">
 
@@ -22,14 +24,35 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-
             'id',
             'item_id',
             'user_id',
             'reservation_date',
             'purge_date',
+            ['class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {loan}',
+                'buttons' => [
+                    'loan' => function ($url, $model) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-arrow-up"></span>',
+                            ['item-loan/create'],
+                            ['data' => [
+                                'method'=>'post',
+                                'params'=>[
+                                    'user_id' => $model->user_id,
+                                    'item_id' => $model->item_id,
+                                    ]
+                                ],
+                            ],
+                            [
+                                'title' => 'Reserve',
+                                'data-pjax' => '0',
+                            ]
+                        );
 
-            ['class' => 'yii\grid\ActionColumn'],
+                    },
+                ],
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

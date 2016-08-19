@@ -58,7 +58,7 @@ $url = ['reservation/create?item='.'id'];
             'itemStatusName',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view}{reserve}',
+                'template' => '{view} {reserve}',
                 'buttons' => [
                     'reserve' => function ($url, $model) {
                         return Html::a(

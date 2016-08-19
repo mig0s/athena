@@ -30,7 +30,7 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'ic_passport')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model,'expiry')-> widget(DatePicker::className(),[ 'dateFormat' => 'yyyy-MM-dd', 'clientOptions' => [ 'yearRange' => '-115:+95', 'changeYear' => true] ]) ?>
+    <?= $form->field($model,'expiry')->widget(DatePicker::className(),[ 'dateFormat' => 'yyyy-MM-dd', 'clientOptions' => [ 'yearRange' => '-115:+95', 'changeYear' => true] ]) ?>
 
     <?=''// $form->field($model, 'expiry')->textInput() ?>
 

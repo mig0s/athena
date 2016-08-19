@@ -34,8 +34,8 @@ class Loan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'item_id', 'user_id', 'return_date'], 'required'],
-            [['id', 'item_id', 'user_id', 'renewal_count'], 'integer'],
+            [['item_id', 'user_id', 'return_date'], 'required'],
+            [['item_id', 'user_id', 'renewal_count'], 'integer'],
             [['initial_loan', 'recent_renewal', 'return_date'], 'safe'],
             [['item_id'], 'exist', 'skipOnError' => true, 'targetClass' => Item::className(), 'targetAttribute' => ['item_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],

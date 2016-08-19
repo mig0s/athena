@@ -83,10 +83,8 @@ class ReservationController extends Controller
      */
     public function actionCreate($item)
     {
+        $model = new Reservation();
         if (ValueHelpers::isAvailable($item)) {
-
-            $model = new Reservation();
-
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 $record = Item::findOne($item);
                 $record->item_status_id = 2;
@@ -98,7 +96,8 @@ class ReservationController extends Controller
                     'item_id' => $item,
                 ]);
             }
-        } else {
+        }
+        else {
             throw new ForbiddenHttpException('The item is not available!');
         }
     }

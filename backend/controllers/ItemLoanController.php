@@ -2,12 +2,14 @@
 
 namespace backend\controllers;
 
+use common\models\Item;
 use Yii;
 use common\models\Loan;
 use backend\models\search\ItemLoanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\db\Query;
 
 /**
  * ItemLoanController implements the CRUD actions for Loan model.
@@ -67,8 +69,16 @@ class ItemLoanController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        } elseif (is_null(Yii::$app->request->post('user_id')) && is_null(Yii::$app->request->post('item_id')) == true) {
             return $this->render('create', [
+                'model' => $model,
+            ]);
+        } else {
+        $item_id = Yii::$app->request->post('item_id');
+        $user_id = Yii::$app->request->post('user_id');
+            return $this->render('create', [
+                $model->user_id = $user_id,
+                $model->item_id = $item_id,
                 'model' => $model,
             ]);
         }
