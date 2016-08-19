@@ -24,8 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
 
             'id',
-            'item_id',
-            'user_id',
+            'item.title',
+            'user.username',
             'initial_loan',
             'recent_renewal',
             // 'renewal_count',
