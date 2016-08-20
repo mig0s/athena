@@ -15,6 +15,7 @@ use Yii;
  * @property integer $renewal_duration
  * @property integer $renewal_limit
  * @property string $description
+ * @property integer $minimum_user_type
  *
  * @property Item[] $items
  * @property SpotTagCharges[] $spotTagCharges
@@ -37,7 +38,7 @@ class SpotTag extends \yii\db\ActiveRecord
         return [
             [['colour', 'name', 'allowance'], 'required'],
             [['name', 'description'], 'string'],
-            [['loan_duration', 'renewal_duration', 'renewal_limit'], 'integer'],
+            [['loan_duration', 'renewal_duration', 'renewal_limit', 'minimum_user_type'], 'integer'],
             [['colour'], 'string', 'max' => 20],
             [['allowance'], 'string', 'max' => 1],
             [['colour'], 'unique'],
@@ -58,6 +59,7 @@ class SpotTag extends \yii\db\ActiveRecord
             'renewal_duration' => 'Renewal Duration',
             'renewal_limit' => 'Renewal Limit',
             'description' => 'Description',
+            'minimum_user_type' => 'Minimum User Type',
         ];
     }
 

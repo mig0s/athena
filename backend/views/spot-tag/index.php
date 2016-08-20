@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'colour',
@@ -31,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'renewal_duration',
             // 'renewal_limit',
             // 'description:ntext',
+            // 'minimum_user_type',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

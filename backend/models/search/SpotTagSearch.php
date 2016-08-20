@@ -18,7 +18,7 @@ class SpotTagSearch extends SpotTag
     public function rules()
     {
         return [
-            [['id', 'loan_duration', 'renewal_duration', 'renewal_limit'], 'integer'],
+            [['id', 'loan_duration', 'renewal_duration', 'renewal_limit', 'minimum_user_type'], 'integer'],
             [['colour', 'name', 'allowance', 'description'], 'safe'],
         ];
     }
@@ -63,6 +63,7 @@ class SpotTagSearch extends SpotTag
             'loan_duration' => $this->loan_duration,
             'renewal_duration' => $this->renewal_duration,
             'renewal_limit' => $this->renewal_limit,
+            'minimum_user_type' => $this->minimum_user_type,
         ]);
 
         $query->andFilterWhere(['like', 'colour', $this->colour])

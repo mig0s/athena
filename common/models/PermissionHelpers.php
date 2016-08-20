@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use backend\models\UserType;
 use common\models\ValueHelpers;
 use yii;
 use yii\web\Controller;
@@ -79,6 +80,25 @@ class PermissionHelpers
 
         }
 
+    }
+
+    public static function loanPermission ($user_id, $item_id) {
+        $user = User::findOne($user_id);
+        $item = Item::findOne($item_id);
+
+        $user_type = $user->user_type_id;
+        $user_type = UserType::findOne($user_type);
+
+        $spot_tag = $item->spot_tag_id;
+        $spot_tag = SpotTag::findOne($spot_tag);
+
+        if (($spot_tag->allowance = 1) &&
+            ($spot_tag->minimum_user_type <= $user_type->user_type_value) &&
+            ($item->item_status_id == 1)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

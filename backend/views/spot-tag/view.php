@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'renewal_duration',
             'renewal_limit',
             'description:ntext',
+            'minimum_user_type',
         ],
     ]) ?>
 

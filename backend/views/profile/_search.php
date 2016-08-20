@@ -2,13 +2,16 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\jui\DatePicker;
+use dosamigos\datepicker\DatePicker;
+
 /* @var $this yii\web\View */
 /* @var $model backend\models\search\ProfileSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="profile-search">
+
+    <div class="col-md-6 col-lg-6 col-sm-12">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -23,9 +26,17 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'last_name') ?>
 
-    <?= $form->field($model, 'birthdate')-> widget(DatePicker::className(),[ 'dateFormat' => 'yyyy-MM-dd', 'clientOptions' => [ 'yearRange' => '-115:+0', 'changeYear' => true] ]) ?>
-    * Please Use YYYY-MM-DD format<br />
-    <br />
+    <?= $form->field($model, 'birthdate')->widget(
+        DatePicker::className(), [
+        // inline too, not bad
+        'inline' => false,
+        //'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
+        'clientOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-mm-dd',
+            'placeholder' => '<span class="text-danger">* Please Use YYYY-MM-DD format</span>'
+        ]
+    ]); ?>
 
     <?php echo $form->field($model, 'gender_id')->dropDownList($model->genderList, ['prompt' => 'Please Select One']) ?>
 
@@ -35,13 +46,24 @@ use yii\jui\DatePicker;
 
     <?php echo $form->field($model, 'ic_passport') ?>
 
-    <?php echo $form->field($model, 'expiry')-> widget(DatePicker::className(),[ 'dateFormat' => 'yyyy-MM-dd', 'clientOptions' => [ 'yearRange' => '-115:+0', 'changeYear' => true] ]) ?>
-    * Please Use YYYY-MM-DD format<br />
-    <br />
+    <?php echo $form->field($model, 'expiry')->widget(
+        DatePicker::className(), [
+        // inline too, not bad
+        'inline' => false,
+        //'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
+        'clientOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-mm-dd'
+        ]
+    ]); ?>
 
     <?php echo $form->field($model, 'mobile_num') ?>
 
     <?php echo $form->field($model, 'home_num') ?>
+
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-sm-12">
 
     <?php echo $form->field($model, 'nationality') ?>
 
@@ -59,11 +81,13 @@ use yii\jui\DatePicker;
 
     <?php echo $form->field($model, 'course_id')->dropDownList($model->courseList, ['prompt' => 'Please Select One']) ?>
 
-    <div class="form-group">
+    </div>
+
+    <div class="form-group col-sm-12">
+        <br />
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
     </div>
-
     <?php ActiveForm::end(); ?>
 
 </div>
