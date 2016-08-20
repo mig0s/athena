@@ -10,7 +10,6 @@ use common\models\Item;
 use common\models\User;
 use kartik\select2\Select2;
 use yii\web\JsExpression;
-use dosamigos\datepicker\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Loan */

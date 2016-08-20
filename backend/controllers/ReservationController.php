@@ -8,6 +8,7 @@ use backend\models\search\ReservationSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\models\Item;
 
 /**
  * ReservationController implements the CRUD actions for Reservation model.
@@ -66,6 +67,10 @@ class ReservationController extends Controller
         $model = new Reservation();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $item = Yii::$app->request->post('item_id');
+            $record = Item::findOne($item);
+            $record->item_status_id = 2;
+            $record->update();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
