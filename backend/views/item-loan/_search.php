@@ -48,7 +48,8 @@ $userName = empty($model->user) ? '' : User::findOne($model->user)->username;
             'templateResult' => new JsExpression('function(item) { return item.text; }'),
             'templateSelection' => new JsExpression('function (item) { return item.text; }'),
         ],
-    ]); ?>
+    ]);
+    ?>
 
     <?= $form->field($model, 'user_id')->widget(Select2::classname(), [
         'initValueText' => $itemTitle, // set the initial display text

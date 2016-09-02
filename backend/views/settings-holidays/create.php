@@ -9,6 +9,7 @@ use yii\helpers\Html;
 $this->title = 'Create Settings Holidays';
 $this->params['breadcrumbs'][] = ['label' => 'Settings Holidays', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$model->added_by=Yii::$app->user->id;
 ?>
 <div class="settings-holidays-create">
 

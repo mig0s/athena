@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'item_id' => $model->item,
-        'user_id' => $model->user
+        'item_id' => Yii::$app->request->post('item_id'),
+        'user_id' => Yii::$app->request->post('user_id'),
     ]) ?>
 
 </div>

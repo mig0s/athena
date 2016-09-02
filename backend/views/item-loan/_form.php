@@ -51,7 +51,7 @@ $userName = empty($model->user) ? '' : User::findOne($model->user)->username;
     ?>
 
     <?= $form->field($model, 'user_id')->widget(Select2::classname(), [
-        'initValueText' => $itemTitle, // set the initial display text
+        'initValueText' => $userName, // set the initial display text
         'options' => ['placeholder' => 'Search for a user...'],
         'pluginOptions' => [
             'allowClear' => true,
