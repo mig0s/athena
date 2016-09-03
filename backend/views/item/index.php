@@ -9,6 +9,7 @@ use yii\widgets\Pjax;
 
 $this->title = 'Items';
 $this->params['breadcrumbs'][] = $this->title;
+$dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
 ?>
 <div class="item-index">
 
@@ -24,11 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'title',
             'author',
-            'editor',
-            'publisher',
+            //'editor',
+            //'publisher',
             // 'pub_place',
             // 'pub_year',
             // 'price',
@@ -48,9 +49,31 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'collection_id',
             // 'category_id',
             // 'sub_category_id',
-            // 'item_status_id',
+            'itemStatusName',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{loan} {view} {update} {delete}',
+                'buttons' => [
+                    'loan' => function ($url, $model) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-arrow-up"></span>',
+                            ['item-loan/create'],
+                            ['data' => [
+                                'method'=>'post',
+                                'params'=>[
+                                    'item_id' => $model->id,
+                                ]
+                            ],
+                            ],
+                            [
+                                'title' => 'Reserve',
+                                'data-pjax' => '0',
+                            ]
+                        );
 
-            ['class' => 'yii\grid\ActionColumn'],
+                    },
+                ],
+            ]
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

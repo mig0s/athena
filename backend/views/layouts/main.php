@@ -60,7 +60,8 @@ AppAsset::register($this);
             ['label' => 'Fines' ,'url' => ['fine/index']],
         ]];
 
-        $menuItems[] = ['label' => 'Loans & Reservations', 'items' => [
+        $menuItems[] = ['label' => 'Items', 'items' => [
+            ['label' => 'Items', 'url' => ['item/index']],
             ['label' => 'Loans', 'url' => ['item-loan/index']],
             ['label' => 'Reservations', 'url' => ['reservation/index']],
         ]];
