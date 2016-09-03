@@ -54,7 +54,7 @@ AppAsset::register($this);
             ['label' => 'Universities', 'url' => ['university/index']],
             ['label' => 'Courses', 'url' => ['course/index']],
             ['label' => 'Groups', 'url' => ['group/index']],
-            ['label' => 'Related items', 'url' => ['item-pairs/index']],
+            ['label' => 'Related items', 'url' => ['item-pair/index']],
             ['label' => 'Item Statuses', 'url' => ['item-status/index']],
             ['label' => 'Spot Tags', 'url' => ['spot-tag/index']],
             ['label' => 'Fines' ,'url' => ['fine/index']],

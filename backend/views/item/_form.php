@@ -2,6 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\depdrop\DepDrop;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use common\models\Collection;
+use common\models\Category;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Item */
@@ -54,11 +60,35 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'location_id')->textInput() ?>
 
-    <?= $form->field($model, 'collection_id')->textInput() ?>
+    <?= $form->field($model, 'collection_id')->widget(Select2::className(), [
+        'data' => ArrayHelper::map(Collection::find()->asArray()->all(), 'id', 'name'),
+        'options' => ['placeholder' => 'Select collection'],
+        'pluginOptions'=>['allowClear'=>true],
+    ]) ?>
 
-    <?= $form->field($model, 'category_id')->textInput() ?>
+    <?= $form->field($model, 'category_id')->widget(DepDrop::className(), [
+        'data' => [0=>'Select category'],
+        'options' => ['placeholder' => 'Select category'],
+        'type' => DepDrop::TYPE_SELECT2,
+        'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+        'pluginOptions'=>[
+            'depends'=>['item-collection_id'],
+            'url'=> Url::to(['item/child-category']),
+            'loadingText' => 'Loading categories',
+        ]
+    ]) ?>
 
-    <?= $form->field($model, 'sub_category_id')->textInput() ?>
+    <?= $form->field($model, 'sub_category_id')->widget(DepDrop::className(), [
+        'data' => [0=>'Select subcategory'],
+        'options' => ['placeholder' => 'Select category'],
+        'type' => DepDrop::TYPE_SELECT2,
+        'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+        'pluginOptions'=>[
+            'depends'=>['item-category_id'],
+            'url'=> Url::to(['item/child-sub-category']),
+            'loadingText' => 'Loading categories',
+        ]
+    ]) ?>
 
     <?= $form->field($model, 'item_status_id')->textInput() ?>
 
