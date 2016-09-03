@@ -9,6 +9,7 @@ use yii\widgets\Pjax;
 
 $this->title = 'Sub Categories';
 $this->params['breadcrumbs'][] = $this->title;
+$dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
 ?>
 <div class="sub-category-index">
 
@@ -22,7 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'name:ntext',
