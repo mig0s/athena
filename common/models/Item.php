@@ -66,7 +66,7 @@ class Item extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'title'], 'required'],
+            [['title', 'category_id'], 'required'],
             [['id', 'num_of_copies', 'created_by', 'edited_by', 'subject_id', 'spot_tag_id', 'location_id', 'collection_id', 'category_id', 'sub_category_id', 'item_status_id'], 'integer'],
             [['pub_year', 'created_at', 'edited_at'], 'safe'],
             [['price', 'price_sgd'], 'number'],

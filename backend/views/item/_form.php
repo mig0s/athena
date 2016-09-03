@@ -14,15 +14,21 @@ use yii\helpers\Url;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="item-form">
+<div class="item-form row">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id')->textInput() ?>
+    <div class="col-md-12">
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'author')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'author')->textInput(['maxlength' => true]) ?>
+
+    </div>
+
+    <div class="col-md-6">
+
+    <?php // $form->field($model, 'id')->textInput() ?>
 
     <?= $form->field($model, 'editor')->textInput(['maxlength' => true]) ?>
 
@@ -42,33 +48,45 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'edition')->textInput(['maxlength' => true]) ?>
 
+    </div><div class="col-md-6">
+
     <?= $form->field($model, 'num_of_copies')->textInput() ?>
 
-    <?= $form->field($model, 'created_by')->textInput() ?>
+    <?php // $form->field($model, 'created_by')->textInput() ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?php // $form->field($model, 'created_at')->textInput() ?>
 
-    <?= $form->field($model, 'edited_by')->textInput() ?>
+    <?php // $form->field($model, 'edited_by')->textInput() ?>
 
-    <?= $form->field($model, 'edited_at')->textInput() ?>
+    <?php // $form->field($model, 'edited_at')->textInput() ?>
 
     <?= $form->field($model, 'accompanying_materials')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'subject_id')->textInput() ?>
+    <?= $form->field($model, 'subject_id')->widget(Select2::className(), [
+        'data' => $model->getSubjectList(),
+        'options' => ['placeholder' => 'Select ...'],
+        'pluginOptions'=>['allowClear'=>true],
+    ])  ?>
 
-    <?= $form->field($model, 'spot_tag_id')->textInput() ?>
+    <?= $form->field($model, 'spot_tag_id')->widget(Select2::className(), [
+        'data' => $model->getSpotTagList(),
+        'options' => ['placeholder' => 'Select ...'],
+        'pluginOptions'=>['allowClear'=>true],
+    ])  ?>
 
-    <?= $form->field($model, 'location_id')->textInput() ?>
+    <?= $form->field($model, 'location_id')->widget(Select2::className(), [
+        'data' => $model->getLocationList(),
+        'options' => ['placeholder' => 'Select ...'],
+        'pluginOptions'=>['allowClear'=>true],
+    ]) ?>
 
     <?= $form->field($model, 'collection_id')->widget(Select2::className(), [
         'data' => ArrayHelper::map(Collection::find()->asArray()->all(), 'id', 'name'),
-        'options' => ['placeholder' => 'Select collection'],
+        'options' => ['placeholder' => 'Select ...'],
         'pluginOptions'=>['allowClear'=>true],
     ]) ?>
 
     <?= $form->field($model, 'category_id')->widget(DepDrop::className(), [
-        'data' => [0=>'Select category'],
-        'options' => ['placeholder' => 'Select category'],
         'type' => DepDrop::TYPE_SELECT2,
         'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
         'pluginOptions'=>[
@@ -79,8 +97,6 @@ use yii\helpers\Url;
     ]) ?>
 
     <?= $form->field($model, 'sub_category_id')->widget(DepDrop::className(), [
-        'data' => [0=>'Select subcategory'],
-        'options' => ['placeholder' => 'Select category'],
         'type' => DepDrop::TYPE_SELECT2,
         'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
         'pluginOptions'=>[
@@ -90,9 +106,15 @@ use yii\helpers\Url;
         ]
     ]) ?>
 
-    <?= $form->field($model, 'item_status_id')->textInput() ?>
+    <?= $form->field($model, 'item_status_id')->widget(Select2::className(), [
+        'data' => $model->getItemStatusList(),
+        'options' => ['placeholder' => 'Select ...'],
+        'pluginOptions'=>['allowClear'=>true],
+    ]) ?>
 
-    <div class="form-group">
+    </div>
+
+    <div class="form-group col-md-12">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
