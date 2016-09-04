@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Category */
@@ -12,9 +13,13 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'collection_id')->dropDownList($model->collectionList, ['prompt' => 'Please Select One']) ?>
+    <?= $form->field($model, 'collection_id')->widget(Select2::className(), [
+        'data' => $model->getCollectionList(),
+        'options' => ['placeholder' => 'Select ...'],
+        'pluginOptions'=>['allowClear'=>true],
+    ])?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

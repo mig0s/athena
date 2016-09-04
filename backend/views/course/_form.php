@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Course */
@@ -16,7 +17,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'loan_limit')->textInput() ?>
 
-    <?= $form->field($model, 'university_id')->dropDownList($model->universityList, ['prompt' => 'Please Select One']) ?>
+    <?= $form->field($model, 'university_id')->widget(Select2::className(), [
+        'data' => $model->getUniversityList(),
+        'options' => ['placeholder' => 'Select ...'],
+        'pluginOptions'=>['allowClear'=>true],
+    ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

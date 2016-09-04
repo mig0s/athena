@@ -31,14 +31,21 @@ AppAsset::register($this);
         $is_admin = \common\models\PermissionHelpers::requireMinimumRole('Admin');
     }
     NavBar::begin([
-        'brandLabel' => '{AAdmin}',
+        'brandLabel' => '{A.Admin}',
         'brandUrl' => '/library/admin/gii', //Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
     if (!Yii::$app->user->isGuest && $is_admin) {
-        $menuItems[] = ['label' => 'RBAC', 'items' => [
+
+        $menuItems[] = ['label' => 'Items', 'items' => [
+            ['label' => 'Items', 'url' => ['item/index']],
+            ['label' => 'Loans', 'url' => ['item-loan/index']],
+            ['label' => 'Reservations', 'url' => ['reservation/index']],
+        ]];
+
+        $menuItems[] = ['label' => 'Users', 'items' => [
             ['label' => 'Users', 'url' => ['user/index']],
             ['label' => 'Profiles', 'url' => ['profile/index']],
             ['label' => 'Roles', 'url' => ['role/index']],
@@ -58,12 +65,6 @@ AppAsset::register($this);
             ['label' => 'Item Statuses', 'url' => ['item-status/index']],
             ['label' => 'Spot Tags', 'url' => ['spot-tag/index']],
             ['label' => 'Fines' ,'url' => ['fine/index']],
-        ]];
-
-        $menuItems[] = ['label' => 'Items', 'items' => [
-            ['label' => 'Items', 'url' => ['item/index']],
-            ['label' => 'Loans', 'url' => ['item-loan/index']],
-            ['label' => 'Reservations', 'url' => ['reservation/index']],
         ]];
     }
     if (Yii::$app->user->isGuest) {
