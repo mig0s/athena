@@ -166,6 +166,66 @@ class ItemLoanController extends Controller
         }
     }
 
+    public function actionRenew()
+    {
+        $id = Yii::$app->request->post('id');
+
+        $model = $this->findModel($id);
+
+        if (!(is_null($model->renewal_count)) && ($model->renewal_count >= SpotTag::findOne(Item::findOne($model->item_id))->renewal_limit)) {
+            throw new ForbiddenHttpException('Renewal limit of this item has been reached by the user!');
+        } else {
+
+            if (is_null($model->renewal_count)) {
+                $model->renewal_count = 0;
+            }
+
+            $holidays = SettingsHolidays::find()->asArray()->where('start_date > NOW()')->all();
+            $holidays = ArrayHelper::map($holidays, 'start_date', 'duration');
+
+            $today = new DateTime();
+
+            $skipDays = array();
+
+            foreach ($holidays as $holiday => $holidayDuration) {
+                $holidayStart = new DateTime($holiday);
+                $holidayEnd = new DateTime($holiday);
+
+                while ($holidayDuration > 0) {
+                    $holidayEnd = $holidayEnd->modify('+1 day');
+                    $holidayDuration--;
+                }
+
+                $days = new DatePeriod(
+                    $holidayStart,
+                    new DateInterval('P1D'),
+                    $holidayEnd
+                );
+
+                foreach ($days as $day) {
+                    $skipDays[] = $day;
+                }
+            }
+
+            $calculator = new ReturnDate(
+                date_create_from_format('Y-m-d', $model->return_date), // Today
+                [$skipDays], //new DateTime("2014-06-01"), new DateTime("2014-06-02")
+                [ReturnDate::SATURDAY]
+            );
+
+            $loanDuration = SpotTag::findOne(Item::findOne($model->item_id)->spot_tag_id)->loan_duration;
+
+            $calculator->addBusinessDays($loanDuration);
+
+            $model->return_date = $calculator->getDate()->modify('+ 1 day')->format('Y-m-d');
+            $model->recent_renewal = $today->format('Y-m-d');
+            $model->renewal_count++;
+            $model->update();
+
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+    }
+
     /**
      * Deletes an existing Loan model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -174,11 +234,15 @@ class ItemLoanController extends Controller
      */
     public function actionDelete($id)
     {
-        $item = Item::findOne($this->findModel($id)->item_id);
-        $this->findModel($id)->delete();
-        $item->item_status_id = 1;
-        $item->update();
-        return $this->redirect(['index']);
+        if (date_create_from_format('Y-m-d', $this->findModel($id)->return_date) > new DateTime()) {
+            throw new ForbiddenHttpException('You need to collect a fine for this item!');
+        } else {
+            $item = Item::findOne($this->findModel($id)->item_id);
+            $this->findModel($id)->delete();
+            $item->item_status_id = 1;
+            $item->update();
+            return $this->redirect(['index']);
+        }
     }
 
     /**

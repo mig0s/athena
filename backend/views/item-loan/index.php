@@ -10,6 +10,7 @@ use yii\bootstrap\Collapse;
 
 $this->title = 'Loans';
 $this->params['breadcrumbs'][] = $this->title;
+$dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
 ?>
 <div class="loan-index">
 
@@ -33,12 +34,34 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'item.title',
             'user.username',
-            'initial_loan',
+            // 'initial_loan',
             // 'recent_renewal',
             'return_date',
-            'renewal_count',
+            //'renewal_count',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {delete} {renew}',
+                'buttons' => [
+                    'renew' => function ($url, $model) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-arrow-up"></span>',
+                            ['item-loan/renew'],
+                            ['data' => [
+                                'method'=>'post',
+                                'params'=>[
+                                    'id' => $model->id
+                                ]
+                            ],
+                            ],
+                            [
+                                'title' => 'Reserve',
+                                'data-pjax' => '0',
+                            ]
+                        );
+
+                    },
+                ],
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
