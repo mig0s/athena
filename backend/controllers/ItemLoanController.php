@@ -84,34 +84,10 @@ class ItemLoanController extends Controller
             $user = User::findOne($loan['user_id']);
             if ((PermissionHelpers::loanPermission($user, $item)) && ($model->save())) {
 
-                $holidays = SettingsHolidays::find()->asArray()->where('start_date > NOW()')->all();
-                $holidays = ArrayHelper::map($holidays, 'start_date', 'duration');
-
-                $skipDays = array();
-
-                foreach ($holidays as $holiday => $holidayDuration) {
-                    $holidayStart = new DateTime($holiday);
-                    $holidayEnd = new DateTime($holiday);
-                    while ($holidayDuration > 0) {
-                        $holidayEnd = $holidayEnd->modify('+1 day');
-                        $holidayDuration--;
-                    }
-
-                    $days = new DatePeriod(
-                        $holidayStart,
-                        new DateInterval('P1D'),
-                        $holidayEnd
-                    );
-
-                    foreach ($days as $day) {
-                        $skipDays[] = $day;
-                    }
-                }
-
                 $calculator = new ReturnDate(
-                    new DateTime(), // Today
-                    [$skipDays], //new DateTime("2014-06-01"), new DateTime("2014-06-02")
-                    [ReturnDate::SATURDAY]
+                    new DateTime() // Today
+                    // [$skipDays], //new DateTime("2014-06-01"), new DateTime("2014-06-02")
+                    // [ReturnDate::SATURDAY]
                 );
 
                 $loanDuration = SpotTag::findOne($item->spot_tag_id)->loan_duration;
@@ -176,44 +152,19 @@ class ItemLoanController extends Controller
             throw new ForbiddenHttpException('Renewal limit of this item has been reached by the user!');
         } else {
 
+            $today = new DateTime();
+
+            $loanDuration = SpotTag::findOne(Item::findOne($model->item_id)->spot_tag_id)->loan_duration;
+
             if (is_null($model->renewal_count)) {
                 $model->renewal_count = 0;
             }
 
-            $holidays = SettingsHolidays::find()->asArray()->where('start_date > NOW()')->all();
-            $holidays = ArrayHelper::map($holidays, 'start_date', 'duration');
-
-            $today = new DateTime();
-
-            $skipDays = array();
-
-            foreach ($holidays as $holiday => $holidayDuration) {
-                $holidayStart = new DateTime($holiday);
-                $holidayEnd = new DateTime($holiday);
-
-                while ($holidayDuration > 0) {
-                    $holidayEnd = $holidayEnd->modify('+1 day');
-                    $holidayDuration--;
-                }
-
-                $days = new DatePeriod(
-                    $holidayStart,
-                    new DateInterval('P1D'),
-                    $holidayEnd
-                );
-
-                foreach ($days as $day) {
-                    $skipDays[] = $day;
-                }
-            }
-
             $calculator = new ReturnDate(
-                date_create_from_format('Y-m-d', $model->return_date), // Today
-                [$skipDays], //new DateTime("2014-06-01"), new DateTime("2014-06-02")
-                [ReturnDate::SATURDAY]
+                date_create_from_format('Y-m-d', $model->return_date) // Today
+                // [$skipDays], //new DateTime("2014-06-01"), new DateTime("2014-06-02")
+                // [ReturnDate::SATURDAY]
             );
-
-            $loanDuration = SpotTag::findOne(Item::findOne($model->item_id)->spot_tag_id)->loan_duration;
 
             $calculator->addBusinessDays($loanDuration);
 

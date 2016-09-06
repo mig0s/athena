@@ -3,6 +3,9 @@
 namespace common\models;
 
 use DateTime;
+use yii\helpers\ArrayHelper;
+use DatePeriod;
+use DateInterval;
 
 class ReturnDate
 {
@@ -20,9 +23,37 @@ class ReturnDate
      * @param DateTime[] $holidays        Array of holidays, holidays are not conisdered as business days.
      * @param int[]      $nonBusinessDays Array of days of the week which are not business days.
      */
-    public function __construct(DateTime $startDate, array $holidays, array $nonBusinessDays) {
+    public function __construct(DateTime $startDate) {
+
+        $holidays = SettingsHolidays::find()->asArray()->where('start_date > NOW()')->all();
+        $holidays = ArrayHelper::map($holidays, 'start_date', 'duration');
+
+        $skipDays = array();
+
+        $nonBusinessDays = array(7);
+
+        foreach ($holidays as $holiday => $holidayDuration) {
+            $holidayStart = new DateTime($holiday);
+            $holidayEnd = new DateTime($holiday);
+
+            while ($holidayDuration > 0) {
+                $holidayEnd = $holidayEnd->modify('+1 day');
+                $holidayDuration--;
+            }
+
+            $days = new DatePeriod(
+                $holidayStart,
+                new DateInterval('P1D'),
+                $holidayEnd
+            );
+
+            foreach ($days as $day) {
+                $skipDays[] = $day;
+            }
+        }
+
         $this->date = $startDate;
-        $this->holidays = $holidays;
+        $this->holidays = $skipDays;
         $this->nonBusinessDays = $nonBusinessDays;
     }
 
@@ -45,11 +76,9 @@ class ReturnDate
             return false; //Date is a nonBusinessDay.
         }
         foreach ($this->holidays as $days) {
-            foreach ($days as $day) {
-                if ($date->format('Y-m-d') == $day->format('Y-m-d')) {
+                if ($date->format('Y-m-d') == $days->format('Y-m-d')) {
                     return false; //Date is a holiday.
                 }
-            }
         }
         return true; //Date is a business day.
     }
