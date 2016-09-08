@@ -20,8 +20,6 @@ class ReturnDate
 
     /**
      * @param DateTime   $startDate       Date to start calculations from
-     * @param DateTime[] $holidays        Array of holidays, holidays are not conisdered as business days.
-     * @param int[]      $nonBusinessDays Array of days of the week which are not business days.
      */
     public function __construct(DateTime $startDate) {
 
@@ -30,7 +28,7 @@ class ReturnDate
 
         $skipDays = array();
 
-        $nonBusinessDays = array(7);
+        $nonBusinessDays = array(7); //TODO: add dynamic business days
 
         foreach ($holidays as $holiday => $holidayDuration) {
             $holidayStart = new DateTime($holiday);

@@ -185,11 +185,14 @@ class ItemLoanController extends Controller
      */
     public function actionDelete($id)
     {
-        if (date_create_from_format('Y-m-d', $this->findModel($id)->return_date) > new DateTime()) {
-            throw new ForbiddenHttpException('You need to collect a fine for this item!');
+        $model = $this->findModel($id);
+
+        if (date_create_from_format('Y-m-d', $model->return_date) < new DateTime()) {
+            $this->redirect(['/fine/create', 'id' => $model->id])->send();
+            // throw new ForbiddenHttpException('You need to collect a fine for this item!');
         } else {
             $item = Item::findOne($this->findModel($id)->item_id);
-            $this->findModel($id)->delete();
+            $model->delete();
             $item->item_status_id = 1;
             $item->update();
             return $this->redirect(['index']);

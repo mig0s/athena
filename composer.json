@@ -21,6 +21,8 @@
         "kartik-v/yii2-widget-select2": "@dev",
         "2amigos/yii2-date-picker-widget": "~1.0",
         "kartik-v/yii2-widget-depdrop": "@dev",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-mpdf": "@dev",
         "codeception/codeception": "2.1.*",
         "codeception/specify": "*",
         "codeception/verify": "*"
@@ -31,7 +33,8 @@
         "yiisoft/yii2-gii": "*",
         "yiisoft/yii2-faker": "*",
         "yiisoft/yii2-jui": "*",
-        "phpunit/phpunit": "5.5.*"
+        "phpunit/phpunit": "5.5.*",
+        "phpdocumentor/phpdocumentor": "2.*"
     },
     "config": {
         "process-timeout": 1800

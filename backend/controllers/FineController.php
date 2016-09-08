@@ -2,12 +2,16 @@
 
 namespace backend\controllers;
 
+use common\models\Loan;
 use Yii;
 use common\models\Fine;
 use backend\models\search\FineSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use DatePeriod;
+use DateInterval;
+use DateTime;
 
 /**
  * FineController implements the CRUD actions for Fine model.
@@ -61,16 +65,48 @@ class FineController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id = null)
     {
         $model = new Fine();
+        if ($id !== null) {
+            $loan = Loan::findOne($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $days = new DatePeriod(
+                DateTime::createFromFormat('Y-m-d', $loan->return_date),
+                new DateInterval('P1D'),
+                new DateTime()
+            );
+
+            $overdue = 0;
+
+            foreach ($days as $day) {
+                $overdue++;
+            }
+
+            $amount = $overdue * 0.5; // TODO: add dynamic fine rate
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                $model->waived_by = Yii::$app->user->id;
+                $model->update();
+                $loan->delete();
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                $model->user_id = $loan->user_id;
+                $model->item_id = $loan->item_id;
+                $model->amount = $amount;
+                $model->waived_by = Yii::$app->user->id;
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         }
     }
 

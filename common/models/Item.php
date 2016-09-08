@@ -126,7 +126,7 @@ class Item extends \yii\db\ActiveRecord
             'categoryName' => 'Category',
             'sub_category_id' => 'Sub Category',
             'sub_category_name' => 'Sub Category',
-            'item_status_id' => 'Item Status',
+            'item_status_id' => 'Status',
             'itemStatusName' => 'Status',
         ];
     }

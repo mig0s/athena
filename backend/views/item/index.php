@@ -1,8 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\widgets\Pjax;
+use kartik\grid\GridView;
+use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
+use common\models\ItemStatus;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\ItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,61 +22,59 @@ $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
     <p>
         <?= Html::a('Create Item', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            //'id',
+            [
+                'class'=>'kartik\grid\ExpandRowColumn',
+                'value'=>function ($model, $key, $index, $column) {
+                    return GridView::ROW_COLLAPSED;
+                },
+                'detail'=>function ($model, $key, $index, $column) {
+                    return Yii::$app->controller->renderPartial('_item-details', ['model'=>$model]);
+                },
+                'headerOptions'=>['class'=>'kartik-sheet-style'],
+                'enableRowClick'=>true,
+                'expandOneOnly'=>true
+            ],
+            //['class' => 'yii\grid\SerialColumn'],
             'title',
             'author',
-            //'editor',
-            //'publisher',
-            // 'pub_place',
-            // 'pub_year',
-            // 'price',
-            // 'price_currency',
-            // 'price_sgd',
-            // 'isbn',
-            // 'edition',
-            // 'num_of_copies',
-            // 'created_by',
-            // 'created_at',
-            // 'edited_by',
-            // 'edited_at',
-            // 'accompanying_materials',
-            // 'subject_id',
-            // 'spot_tag_id',
-            // 'location_id',
-            // 'collection_id',
-            // 'category_id',
-            // 'sub_category_id',
-            'itemStatusName',
             [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '{loan} {view} {update} {delete}',
-                'buttons' => [
-                    'loan' => function ($url, $model) {
-                        return Html::a(
-                            '<span class="glyphicon glyphicon-arrow-up"></span>',
-                            ['item-loan/create'],
-                            ['data' => [
-                                'method'=>'post',
-                                'params'=>[
-                                    'item_id' => $model->id,
-                                ]
-                            ],
-                            ],
-                            [
-                                'title' => 'Reserve',
-                                'data-pjax' => '0',
-                            ]
-                        );
-
-                    },
+                'attribute'=>'item_status_id',
+                'vAlign'=>'middle',
+                'width'=>'180px',
+                'value'=>'itemStatusName',
+                'filterType'=>GridView::FILTER_SELECT2,
+                'filter'=>ArrayHelper::map(ItemStatus::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
+                'filterWidgetOptions'=>[
+                    'pluginOptions'=>['allowClear'=>true],
                 ],
-            ]
+                'format'=>'raw'
+            ],
         ],
-    ]); ?>
+        'responsive' => true,
+        'hover' => true,
+        'resizableColumns'=>true,
+        'resizeStorageKey'=>Yii::$app->user->id . '-' . date("m"),
+        'toolbar' => [
+            [
+                'content'=>
+                    Html::button('<i class="glyphicon glyphicon-plus"></i>', [
+                        'type'=>'button',
+                        'title'=>'Add Book',
+                        'class'=>'btn btn-success'
+                    ]) . ' '.
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['grid-demo'], [
+                        'class' => 'btn btn-default',
+                        'title' => 'Reset Grid'
+                    ]),
+            ],
+            '{export}',
+            '{toggleData}'
+        ]
+    ])
+
+    ?>
 <?php Pjax::end(); ?></div>
