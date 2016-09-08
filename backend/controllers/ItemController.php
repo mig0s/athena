@@ -190,13 +190,4 @@ class ItemController extends Controller
         echo Json::encode(['output' => '', 'selected'=>'']);
     }
 
-    public function actionItemDetails() {
-        if (isset($_POST['expandRowKey'])) {
-            $model = Item::findOne($_POST['expandRowKey']);
-            return $this->renderPartial('_item-details', ['model'=>$model]);
-        } else {
-            return '<div class="alert alert-danger">No data found</div>';
-        }
-    }
-
 }

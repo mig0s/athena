@@ -32,7 +32,7 @@ $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
                     return GridView::ROW_COLLAPSED;
                 },
                 'detail'=>function ($model, $key, $index, $column) {
-                    return Yii::$app->controller->renderPartial('_item-details', ['model'=>$model]);
+                    return Yii::$app->controller->renderPartial('view', ['model'=>$model]);
                 },
                 'headerOptions'=>['class'=>'kartik-sheet-style'],
                 'enableRowClick'=>true,
