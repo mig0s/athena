@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'recent_renewal',
             // 'renewal_count',
             'return_date',
-            'loan_status.name',
+            'loanStatus.name',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

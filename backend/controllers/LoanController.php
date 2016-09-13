@@ -199,6 +199,7 @@ class LoanController extends Controller
         } else {
             $item = Item::findOne($this->findModel($id)->item_id);
             $model->loan_status_id = 2;
+            $model->update();
             $item->item_status_id = 1;
             $item->update();
             return $this->redirect(['index']);
