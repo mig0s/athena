@@ -14,8 +14,10 @@ use Yii;
  * @property string $recent_renewal
  * @property integer $renewal_count
  * @property string $return_date
+ * @property integer $loan_status_id
  *
  * @property Item $item
+ * @property LoanStatus $loanStatus
  * @property User $user
  */
 class Loan extends \yii\db\ActiveRecord
@@ -34,10 +36,11 @@ class Loan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['item_id', 'user_id'], 'required'],
-            [['item_id', 'user_id', 'renewal_count'], 'integer'],
+            [['item_id', 'user_id', 'return_date', 'loan_status_id'], 'required'],
+            [['item_id', 'user_id', 'renewal_count', 'loan_status_id'], 'integer'],
             [['initial_loan', 'recent_renewal', 'return_date'], 'safe'],
             [['item_id'], 'exist', 'skipOnError' => true, 'targetClass' => Item::className(), 'targetAttribute' => ['item_id' => 'id']],
+            [['loan_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => LoanStatus::className(), 'targetAttribute' => ['loan_status_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -49,12 +52,13 @@ class Loan extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'item_id' => 'Item',
-            'user_id' => 'User',
+            'item_id' => 'Item ID',
+            'user_id' => 'User ID',
             'initial_loan' => 'Initial Loan',
             'recent_renewal' => 'Recent Renewal',
-            'renewal_count' => 'Times renewed',
+            'renewal_count' => 'Renewal Count',
             'return_date' => 'Return Date',
+            'loan_status_id' => 'Loan Status ID',
         ];
     }
 
@@ -64,6 +68,14 @@ class Loan extends \yii\db\ActiveRecord
     public function getItem()
     {
         return $this->hasOne(Item::className(), ['id' => 'item_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLoanStatus()
+    {
+        return $this->hasOne(LoanStatus::className(), ['id' => 'loan_status_id']);
     }
 
     /**
