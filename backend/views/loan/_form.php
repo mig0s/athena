@@ -25,10 +25,6 @@ $userName = empty($model->user) ? '' : User::findOne($model->user)->username;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?php //$form->field($model, 'id')->textInput() ?>
-
-    <?php //$form->field($model, 'item_id')->textInput() ?>
-
     <?= $form->field($model, 'item_id')->widget(Select2::classname(), [
         'initValueText' => $itemTitle, // set the initial display text
         'options' => ['placeholder' => 'Search for an item...'],
@@ -77,7 +73,9 @@ $userName = empty($model->user) ? '' : User::findOne($model->user)->username;
 
     <?=''// $form->field($model, 'renewal_count')->textInput() ?>
 
+    <?=''// $form->field($model, 'return_date')->textInput() ?>
 
+    <?= $form->field($model, 'loan_status_id')->textInput()->hiddenInput()->label(false) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

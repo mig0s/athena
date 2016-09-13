@@ -41,7 +41,7 @@ AppAsset::register($this);
 
         $menuItems[] = ['label' => 'Items', 'items' => [
             ['label' => 'Items', 'url' => ['item/index']],
-            ['label' => 'Loans', 'url' => ['item-loan/index']],
+            ['label' => 'Loans', 'url' => ['loan/index']],
             ['label' => 'Reservations', 'url' => ['reservation/index']],
         ]];
 

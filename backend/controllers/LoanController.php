@@ -11,7 +11,7 @@ use common\models\User;
 use common\models\ValueHelpers;
 use Yii;
 use common\models\Loan;
-use backend\models\search\ItemLoanSearch;
+use backend\models\search\LoanSearch;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
@@ -24,9 +24,9 @@ use DatePeriod;
 use DateInterval;
 
 /**
- * ItemLoanController implements the CRUD actions for Loan model.
+ * LoanController implements the CRUD actions for Loan model.
  */
-class ItemLoanController extends Controller
+class LoanController extends Controller
 {
     /**
      * @inheritdoc
@@ -49,7 +49,7 @@ class ItemLoanController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ItemLoanSearch();
+        $searchModel = new LoanSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -82,20 +82,18 @@ class ItemLoanController extends Controller
             $loan = Yii::$app->request->post('Loan');
             $item = Item::findOne($loan['item_id']);
             $user = User::findOne($loan['user_id']);
+
+            $calcReturn = new ReturnDate(
+                new DateTime()
+            );
+
+            $loanDuration = SpotTag::findOne($item->spot_tag_id)->loan_duration;
+
+            $calcReturn->addBusinessDays($loanDuration);
+
+            $model->return_date = $calcReturn->getDate()->modify('+ 1 day')->format('Y-m-d');
+
             if ((PermissionHelpers::loanPermission($user, $item)) && ($model->save())) {
-
-                $calculator = new ReturnDate(
-                    new DateTime() // Today
-                    // [$skipDays], //new DateTime("2014-06-01"), new DateTime("2014-06-02")
-                    // [ReturnDate::SATURDAY]
-                );
-
-                $loanDuration = SpotTag::findOne($item->spot_tag_id)->loan_duration;
-
-                $calculator->addBusinessDays($loanDuration);
-
-                $model->return_date = $calculator->getDate()->modify('+ 1 day')->format('Y-m-d');
-                $model->update();
 
                 $item->item_status_id = 5;
                 $item->update();
@@ -105,11 +103,11 @@ class ItemLoanController extends Controller
             } elseif (!(PermissionHelpers::loanPermission($user, $item))) {
 
                 throw new ForbiddenHttpException('Item is not Available and/or this User is not allowed to borrow this item!');
-
             }
 
         } elseif (is_null(Yii::$app->request->post('user_id')) && is_null(Yii::$app->request->post('item_id'))) {
             return $this->render('create', [
+                $model->loan_status_id = 1,
                 'model' => $model,
             ]);
         } else {
@@ -118,6 +116,7 @@ class ItemLoanController extends Controller
             return $this->render('create', [
                 $model->user_id = $user_id,
                 $model->item_id = $item_id,
+                $model->loan_status_id = 1,
                 'model' => $model,
             ]);
         }
@@ -142,6 +141,13 @@ class ItemLoanController extends Controller
         }
     }
 
+    /**
+     * Renews an existing Loan model.
+     * If renew is successful, the browser will be redirected to the 'view' page. Otherwise there will be an Forbidden exception thrown.
+     * @return mixed
+     * @throws mixed
+     */
+
     public function actionRenew()
     {
         $id = Yii::$app->request->post('id');
@@ -160,15 +166,15 @@ class ItemLoanController extends Controller
                 $model->renewal_count = 0;
             }
 
-            $calculator = new ReturnDate(
+            $calcReturn = new ReturnDate(
                 date_create_from_format('Y-m-d', $model->return_date) // Today
-                // [$skipDays], //new DateTime("2014-06-01"), new DateTime("2014-06-02")
-                // [ReturnDate::SATURDAY]
+            // [$skipDays], //new DateTime("2014-06-01"), new DateTime("2014-06-02")
+            // [ReturnDate::SATURDAY]
             );
 
-            $calculator->addBusinessDays($loanDuration);
+            $calcReturn->addBusinessDays($loanDuration);
 
-            $model->return_date = $calculator->getDate()->modify('+ 1 day')->format('Y-m-d');
+            $model->return_date = $calcReturn->getDate()->modify('+ 1 day')->format('Y-m-d');
             $model->recent_renewal = $today->format('Y-m-d');
             $model->renewal_count++;
             $model->update();
@@ -192,7 +198,7 @@ class ItemLoanController extends Controller
             // throw new ForbiddenHttpException('You need to collect a fine for this item!');
         } else {
             $item = Item::findOne($this->findModel($id)->item_id);
-            $model->delete();
+            $model->loan_status_id = 2;
             $item->item_status_id = 1;
             $item->update();
             return $this->redirect(['index']);
