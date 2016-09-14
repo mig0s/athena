@@ -198,7 +198,29 @@ class LoanController extends Controller
             // throw new ForbiddenHttpException('You need to collect a fine for this item!');
         } else {
             $item = Item::findOne($this->findModel($id)->item_id);
+            $model->delete();
+            $item->item_status_id = 1;
+            $item->update();
+            return $this->redirect(['index']);
+        }
+    }
+    /**
+     * Returns an item recorded in an existing Loan model.
+     * If return is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionReturn($id)
+    {
+        $model = $this->findModel($id);
+
+        if (date_create_from_format('Y-m-d', $model->return_date) < new DateTime()) {
+            $this->redirect(['/fine/create', 'id' => $model->id])->send();
+            // throw new ForbiddenHttpException('You need to collect a fine for this item!');
+        } else {
+            $item = Item::findOne($this->findModel($id)->item_id);
             $model->loan_status_id = 2;
+            $model->return_date = date('Y-m-d');
             $model->update();
             $item->item_status_id = 1;
             $item->update();
