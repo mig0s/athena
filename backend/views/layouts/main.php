@@ -53,6 +53,14 @@ AppAsset::register($this);
             ['label' => 'Statuses', 'url' => ['status/index']],
         ]];
 
+        $menuItems[] = ['label' => 'Reports', 'items' => [
+            ['label' => 'Report 1', 'url' => ['#']],
+            ['label' => 'Report 2', 'url' => ['#']],
+            ['label' => 'Report 3', 'url' => ['#']],
+            ['label' => 'Report 4', 'url' => ['#']],
+            ['label' => 'Report 5', 'url' => ['#']],
+        ]];
+
         $menuItems[] = ['label' => 'Settings', 'items' => [
             ['label' => 'Collections', 'url' => ['collection/index']],
             ['label' => 'Categories', 'url' => ['category/index']],
@@ -65,6 +73,7 @@ AppAsset::register($this);
             ['label' => 'Item Statuses', 'url' => ['item-status/index']],
             ['label' => 'Spot Tags', 'url' => ['spot-tag/index']],
             ['label' => 'Fines' ,'url' => ['fine/index']],
+            ['label' => 'Loan Statuses' ,'url' => ['loan-status/index']],
         ]];
     }
     if (Yii::$app->user->isGuest) {

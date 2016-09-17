@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             '{toggleData}'
         ],
         'panel' => [
-            'heading'=>'<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Loans</h3>',
+            'heading'=>'<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Loans</h3>',
             'type'=>'success',
             'before'=>Html::a('<i class="glyphicon glyphicon-plus"></i> Loan Item', ['create'], ['class' => 'btn btn-success']),
             'after'=>Html::a('<i class="glyphicon glyphicon-repeat"></i> Reset Grid', ['index'], ['class' => 'btn btn-info']),

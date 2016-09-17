@@ -16,7 +16,8 @@ use yii\web\JsExpression;
 /* @var $form yii\widgets\ActiveForm */
 
 // Get the initial item description
-$itemTitle = empty($model->item) ? '' : Item::findOne($model->item)->title;
+$item = Item::findOne($model->item);
+$itemTitle = empty($model->item) ? '' : $item->title;
 $userName = empty($model->user) ? '' : User::findOne($model->user)->username;
 
 ?>

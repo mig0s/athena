@@ -6,6 +6,7 @@ use kartik\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use common\models\ItemStatus;
+use yii\bootstrap\Collapse;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\ItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -16,15 +17,42 @@ $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
 ?>
 <div class="item-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo Collapse::widget([
+        'items' => [
+            [
+                'label' => 'Search',
+                'content' => $this->render('_search', ['model' => $searchModel]),
+            ],
+        ]
+    ]); ?>
 
-    <p>
-        <?= Html::a('Create Item', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 <?php Pjax::begin(); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'toolbar' => [
+            [
+                'content'=>
+                    Html::button('<i class="glyphicon glyphicon-plus"></i>', [
+                        'type'=>'button',
+                        'title'=>'Add Book',
+                        'class'=>'btn btn-success'
+                    ]) . ' '.
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['grid-demo'], [
+                        'class' => 'btn btn-default',
+                        'title' => 'Reset Grid'
+                    ]),
+            ],
+            '{export}',
+            '{toggleData}'
+        ],
+        'panel' => [
+            'heading'=>'<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Items</h3>',
+            'type'=>'info',
+            //'before'=>Html::a('<i class="glyphicon glyphicon-plus"></i> Create Item', ['create'], ['class' => 'btn btn-success']),
+            //'after'=>Html::a('<i class="glyphicon glyphicon-repeat"></i> Reset Grid', ['index'], ['class' => 'btn btn-info']),
+            //'footer'=>true
+        ],
         'columns' => [
             [
                 'class'=>'kartik\grid\ExpandRowColumn',

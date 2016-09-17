@@ -15,15 +15,17 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'global_search') ?>
 
-    <?= $form->field($model, 'title') ?>
+    <?php // $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'author') ?>
+    <?php // $form->field($model, 'title') ?>
 
-    <?= $form->field($model, 'editor') ?>
+    <?php // $form->field($model, 'author') ?>
 
-    <?= $form->field($model, 'publisher') ?>
+    <?php // $form->field($model, 'editor') ?>
+
+    <?php // $form->field($model, 'publisher') ?>
 
     <?php // echo $form->field($model, 'pub_place') ?>
 

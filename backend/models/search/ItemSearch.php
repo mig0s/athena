@@ -15,11 +15,14 @@ class ItemSearch extends Item
     /**
      * @inheritdoc
      */
+
+    public $global_search;
+
     public function rules()
     {
         return [
             [['id', 'num_of_copies', 'created_by', 'edited_by', 'subject_id', 'spot_tag_id', 'location_id', 'collection_id', 'category_id', 'sub_category_id', 'item_status_id'], 'integer'],
-            [['title', 'author', 'editor', 'publisher', 'pub_place', 'pub_year', 'price_currency', 'isbn', 'edition', 'created_at', 'edited_at', 'accompanying_materials'], 'safe'],
+            [['title', 'author', 'editor', 'publisher', 'pub_place', 'pub_year', 'price_currency', 'isbn', 'edition', 'created_at', 'edited_at', 'accompanying_materials', 'global_search'], 'safe'],
             [['price', 'price_sgd'], 'number'],
         ];
     }
@@ -41,6 +44,38 @@ class ItemSearch extends Item
      * @return ActiveDataProvider
      */
     public function search($params)
+    {
+        $query = Item::find();
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $query->orFilterWhere(['like', 'id', $this->global_search])
+            ->orFilterWhere(['like', 'title', $this->global_search])
+            ->orFilterWhere(['like', 'author', $this->global_search])
+            ->orFilterWhere(['like', 'editor', $this->global_search])
+            ->orFilterWhere(['like', 'publisher', $this->global_search])
+            ->orFilterWhere(['like', 'pub_place', $this->global_search])
+            ->orFilterWhere(['like', 'price_currency', $this->global_search])
+            ->orFilterWhere(['like', 'isbn', $this->global_search])
+            ->orFilterWhere(['like', 'edition', $this->global_search])
+            ->orFilterWhere(['like', 'accompanying_materials', $this->global_search]);
+
+        return $dataProvider;
+    }
+
+    public function searchByParams($params)
     {
         $query = Item::find();
 

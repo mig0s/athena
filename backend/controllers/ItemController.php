@@ -133,7 +133,9 @@ class ItemController extends Controller
             $query = new Query;
             $query->select('id, title AS text')
                 ->from('item')
-                ->where(['like', 'title', $q])
+                ->orFilterWhere(['like', 'id', $q])
+                ->orFilterWhere(['like', 'title', $q])
+                ->orFilterWhere(['like', 'author', $q])
                 ->andWhere(['item_status_id' => '1'])
                 ->limit(20);
             $command = $query->createCommand();
