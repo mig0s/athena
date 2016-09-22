@@ -8,6 +8,8 @@ use backend\models\search\SubjectSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use common\models\PermissionHelpers;
 
 /**
  * SubjectController implements the CRUD actions for Subject model.
@@ -21,6 +23,19 @@ class SubjectController extends Controller
     {
         return [
             'verbs' => [
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'rules' => [
+                        [
+                            'actions' => ['create', 'update','delete', 'view', 'index'],
+                            'allow' => true,
+                            'roles' => ['@'],
+                            'matchCallback' => function ($rule, $action) {
+                                return PermissionHelpers::requireMinimumRole('Admin') && PermissionHelpers::requireStatus('Active');
+                            }
+                        ],
+                    ],
+                ],
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],

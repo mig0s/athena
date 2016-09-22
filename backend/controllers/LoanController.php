@@ -22,6 +22,7 @@ use common\models\ReturnDate;
 use DateTime;
 use DatePeriod;
 use DateInterval;
+use yii\filters\AccessControl;
 
 /**
  * LoanController implements the CRUD actions for Loan model.
@@ -34,6 +35,19 @@ class LoanController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['create', 'update','delete', 'view', 'index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return PermissionHelpers::requireMinimumRole('Admin') && PermissionHelpers::requireStatus('Active');
+                        }
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
