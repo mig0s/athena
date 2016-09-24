@@ -30,7 +30,7 @@ class ItemController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create', 'update','delete', 'view', 'index'],
+                        'actions' => ['create', 'update','delete', 'view', 'index', 'child-category', 'child-sub-category'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
@@ -83,6 +83,7 @@ class ItemController extends Controller
     public function actionCreate()
     {
         $model = new Item();
+        $model->created_by = Yii::$app->user->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -102,6 +103,8 @@ class ItemController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->edited_by = Yii::$app->user->id;
+        $model->edited_at = date('Y-m-d H:i:s');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

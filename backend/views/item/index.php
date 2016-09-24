@@ -7,6 +7,8 @@ use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use common\models\ItemStatus;
 use yii\bootstrap\Collapse;
+use yii\widgets\ActiveForm;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\ItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -14,38 +16,58 @@ use yii\bootstrap\Collapse;
 $this->title = 'Items';
 $this->params['breadcrumbs'][] = $this->title;
 $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
+
 ?>
 <div class="item-index">
 
-    <?php echo Collapse::widget([
+    <div class="item-search">
+
+        <?php $form = ActiveForm::begin([
+            'action' => ['index'],
+            'method' => 'get',
+        ]); ?>
+
+        <?= $form->field($searchModel, 'global_search') ?>
+
+        <div class="form-group">
+            <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+            <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
+    </div>
+
+
+    <?php
+    echo Collapse::widget([
         'items' => [
             [
-                'label' => 'Search',
+                'label' => 'Search by parameters',
                 'content' => $this->render('_search', ['model' => $searchModel]),
             ],
         ]
     ]); ?>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 <?php Pjax::begin(); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'toolbar' => [
-            [
-                'content'=>
-                    Html::button('<i class="glyphicon glyphicon-plus"></i>', [
-                        'type'=>'button',
-                        'title'=>'Add Book',
-                        'class'=>'btn btn-success'
-                    ]) . ' '.
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['grid-demo'], [
-                        'class' => 'btn btn-default',
-                        'title' => 'Reset Grid'
-                    ]),
-            ],
-            '{export}',
-            '{toggleData}'
-        ],
+//        'toolbar' => [
+//            [
+//                'content'=>
+//                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], [
+//                        //'type'=>'button',
+//                        'title'=>'Add Book',
+//                        'class'=>'btn btn-success'
+//                    ]) . ' '.
+//                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['/'], [
+//                        'class' => 'btn btn-default',
+//                        'title' => 'Try to Reset Grid'
+//                    ]),
+//            ],
+//            '{export}',
+//            //'{toggleData}'
+//        ],
         'panel' => [
             'heading'=>'<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Items</h3>',
             'type'=>'info',
@@ -89,18 +111,18 @@ $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
         'toolbar' => [
             [
                 'content'=>
-                    Html::button('<i class="glyphicon glyphicon-plus"></i>', [
-                        'type'=>'button',
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], [
+                        //'type'=>'button',
                         'title'=>'Add Book',
                         'class'=>'btn btn-success'
                     ]) . ' '.
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['grid-demo'], [
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['index'], [
                         'class' => 'btn btn-default',
                         'title' => 'Reset Grid'
                     ]),
             ],
             '{export}',
-            '{toggleData}'
+            //'{toggleData}'
         ]
     ])
 
