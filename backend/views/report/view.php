@@ -38,18 +38,22 @@ $this->title = $title;
         ],
         'exportConfig' => [
             'html' => [
-                'filename' => str_replace(' ', '_', $title).'_'.date('Y-m-d')
+                'filename' => 'Athena_Library:'.str_replace(' ', '_', $title).'_'.date('Y-m-d')
             ],
             'txt' => [
-                'filename' => str_replace(' ', '_', $title).'_'.date('Y-m-d')
+                'filename' => 'Athena_Library:'.str_replace(' ', '_', $title).'_'.date('Y-m-d')
             ],
             'xls' => [
-                'filename' => str_replace(' ', '_', $title).'_'.date('Y-m-d')
+                'filename' => 'Athena_Library:'.str_replace(' ', '_', $title).'_'.date('Y-m-d')
             ],
             'pdf' => [
-                'filename' => str_replace(' ', '_', $title).'_'.date('Y-m-d'),
+                'filename' => 'Athena_Library:'.str_replace(' ', '_', $title).'_'.date('Y-m-d'),
                 'config' => [
-                    'contentBefore' => '<h1>'.$title.'</h1>'
+                    'contentBefore' => '<h1>'.$title.'</h1>',
+                    'methods' => [
+                        'SetHeader' => 'test',
+                        'SetFooter' => 'test',
+                    ]
                 ]
             ],
         ]
