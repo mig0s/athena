@@ -19,5 +19,23 @@ $this->params['breadcrumbs'][] = $this->title;
             ));
         ?>
     </p>
+    <p>
+        <?= Html::a( "Popular Categories",
+            Url::toRoute([
+                'popular-categories'
+            ]), array(
+                'class' => 'btn btn-default'
+            ));
+        ?>
+    </p>
+    <p>
+        <?= Html::a( "Popular Subcategories",
+            Url::toRoute([
+                'popular-subcategories'
+            ]), array(
+                'class' => 'btn btn-default'
+            ));
+        ?>
+    </p>
 </div>
 
