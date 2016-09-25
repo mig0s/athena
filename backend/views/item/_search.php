@@ -2,6 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
+use kartik\depdrop\DepDrop;
+use yii\helpers\ArrayHelper;
+use common\models\Collection;
+use yii\helpers\Url;
+
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\search\ItemSearch */
@@ -20,6 +26,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'title') ?>
 
     <?= $form->field($model, 'author') ?>
+
+    <div class="col-md-6 col-lg-6 col-sm-12">
 
     <?= $form->field($model, 'editor') ?>
 
@@ -51,19 +59,59 @@ use yii\widgets\ActiveForm;
 
     <?php echo $form->field($model, 'accompanying_materials') ?>
 
-    <?php echo $form->field($model, 'subject_id')->dropDownList($model->subjectList, ['prompt' => 'Please Select One']) ?>
+    </div> <div class="col-md-6 col-lg-6 col-sm-12">
 
-    <?php echo $form->field($model, 'spot_tag_id')->dropDownList($model->spotTagList, ['prompt' => 'Please Select One']) ?>
+        <?= $form->field($model, 'subject_id')->widget(Select2::className(), [
+            'data' => $model->getSubjectList(),
+            'options' => ['placeholder' => 'Select ...'],
+            'pluginOptions'=>['allowClear'=>true],
+        ])  ?>
 
-    <?php // echo $form->field($model, 'location_id') ?>
+        <?= $form->field($model, 'spot_tag_id')->widget(Select2::className(), [
+            'data' => $model->getSpotTagList(),
+            'options' => ['placeholder' => 'Select ...'],
+            'pluginOptions'=>['allowClear'=>true],
+        ])  ?>
 
-    <?php echo $form->field($model, 'collection_id')->dropDownList($model->collectionList, ['prompt' => 'Please Select One']) ?>
+        <?= $form->field($model, 'location_id')->widget(Select2::className(), [
+            'data' => $model->getLocationList(),
+            'options' => ['placeholder' => 'Select ...'],
+            'pluginOptions'=>['allowClear'=>true],
+        ]) ?>
 
-    <?php echo $form->field($model, 'category_id')->dropDownList($model->categoryList, ['prompt' => 'Please Select One']) ?>
+        <?= $form->field($model, 'collection_id')->widget(Select2::className(), [
+            'data' => ArrayHelper::map(Collection::find()->asArray()->all(), 'id', 'name'),
+            'options' => ['placeholder' => 'Select ...'],
+            'pluginOptions'=>['allowClear'=>true],
+        ]) ?>
 
-    <?php echo $form->field($model, 'sub_category_id')->dropDownList($model->subCategoryList, ['prompt' => 'Please Select One']) ?>
+        <?= $form->field($model, 'category_id')->widget(DepDrop::className(), [
+            'type' => DepDrop::TYPE_SELECT2,
+            'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+            'pluginOptions'=>[
+                'depends'=>['item-collection_id'],
+                'url'=> Url::to(['item/child-category']),
+                'loadingText' => 'Loading categories',
+            ]
+        ]) ?>
 
-    <?php echo $form->field($model, 'item_status_id')->dropDownList($model->itemStatusList, ['prompt' => 'Please Select One']) ?>
+        <?= $form->field($model, 'sub_category_id')->widget(DepDrop::className(), [
+            'type' => DepDrop::TYPE_SELECT2,
+            'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+            'pluginOptions'=>[
+                'depends'=>['item-category_id'],
+                'url'=> Url::to(['item/child-sub-category']),
+                'loadingText' => 'Loading categories',
+            ]
+        ]) ?>
+
+        <?= $form->field($model, 'item_status_id')->widget(Select2::className(), [
+            'data' => $model->getItemStatusList(),
+            'options' => ['placeholder' => 'Select ...'],
+            'pluginOptions'=>['allowClear'=>true],
+        ]) ?>
+
+    </div>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

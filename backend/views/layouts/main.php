@@ -54,7 +54,7 @@ AppAsset::register($this);
         ]];
 
         $menuItems[] = ['label' => 'Reports', 'items' => [
-            ['label' => 'Report 1', 'url' => ['report/popular-books']],
+            ['label' => 'Popular Books', 'url' => ['report/popular-books']],
         ]];
 
         $menuItems[] = ['label' => 'Settings', 'items' => [

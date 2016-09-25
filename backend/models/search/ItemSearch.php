@@ -61,18 +61,52 @@ class ItemSearch extends Item
             return $dataProvider;
         }
 
-        $query->orFilterWhere(['like', 'id', $this->global_search])
-            ->orFilterWhere(['like', 'title', $this->global_search])
-            ->orFilterWhere(['like', 'author', $this->global_search])
-            ->orFilterWhere(['like', 'editor', $this->global_search])
-            ->orFilterWhere(['like', 'publisher', $this->global_search])
-            ->orFilterWhere(['like', 'pub_place', $this->global_search])
-            ->orFilterWhere(['like', 'price_currency', $this->global_search])
-            ->orFilterWhere(['like', 'isbn', $this->global_search])
-            ->orFilterWhere(['like', 'edition', $this->global_search])
-            ->orFilterWhere(['like', 'accompanying_materials', $this->global_search]);
+        if (isset($params['ItemSearch']['global_search']))
+        {
+            $query->orFilterWhere(['like', 'id', $this->global_search])
+                ->orFilterWhere(['like', 'title', $this->global_search])
+                ->orFilterWhere(['like', 'author', $this->global_search])
+                ->orFilterWhere(['like', 'editor', $this->global_search])
+                ->orFilterWhere(['like', 'publisher', $this->global_search])
+                ->orFilterWhere(['like', 'pub_place', $this->global_search])
+                ->orFilterWhere(['like', 'price_currency', $this->global_search])
+                ->orFilterWhere(['like', 'isbn', $this->global_search])
+                ->orFilterWhere(['like', 'edition', $this->global_search])
+                ->orFilterWhere(['like', 'accompanying_materials', $this->global_search]);
 
-        return $dataProvider;
+            return $dataProvider;
+        } else {
+            $query->andFilterWhere([
+                'id' => $this->id,
+                'pub_year' => $this->pub_year,
+                'price' => $this->price,
+                'price_sgd' => $this->price_sgd,
+                'num_of_copies' => $this->num_of_copies,
+                'created_by' => $this->created_by,
+                'created_at' => $this->created_at,
+                'edited_by' => $this->edited_by,
+                'edited_at' => $this->edited_at,
+                'subject_id' => $this->subject_id,
+                'spot_tag_id' => $this->spot_tag_id,
+                'location_id' => $this->location_id,
+                'collection_id' => $this->collection_id,
+                'category_id' => $this->category_id,
+                'sub_category_id' => $this->sub_category_id,
+                'item_status_id' => $this->item_status_id,
+            ]);
+
+            $query->andFilterWhere(['like', 'title', $this->title])
+                ->andFilterWhere(['like', 'author', $this->author])
+                ->andFilterWhere(['like', 'editor', $this->editor])
+                ->andFilterWhere(['like', 'publisher', $this->publisher])
+                ->andFilterWhere(['like', 'pub_place', $this->pub_place])
+                ->andFilterWhere(['like', 'price_currency', $this->price_currency])
+                ->andFilterWhere(['like', 'isbn', $this->isbn])
+                ->andFilterWhere(['like', 'edition', $this->edition])
+                ->andFilterWhere(['like', 'accompanying_materials', $this->accompanying_materials]);
+
+            return $dataProvider;
+        }
     }
 
     public function searchByParams($params)

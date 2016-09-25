@@ -122,8 +122,12 @@ $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
                     ]),
             ],
             '{export}',
-            //'{toggleData}'
-        ]
+            '{toggleData}'
+        ],
+        'pager' => [
+            'firstPageLabel' => 'First',
+            'lastPageLabel'  => 'Last'
+        ],
     ])
 
     ?>
