@@ -30,7 +30,7 @@ class ItemController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create', 'update','delete', 'view', 'index', 'child-category', 'child-sub-category'],
+                        'actions' => ['create', 'update','delete', 'view', 'index', 'child-category', 'child-sub-category', 'itemlist'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {

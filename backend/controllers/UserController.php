@@ -27,7 +27,7 @@ class UserController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create', 'update','delete', 'view', 'index'],
+                        'actions' => ['create', 'update','delete', 'view', 'index', 'userlist'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
