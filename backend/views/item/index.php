@@ -20,24 +20,16 @@ $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
 ?>
 <div class="item-index">
 
-    <div class="item-search">
 
-        <?php $form = ActiveForm::begin([
-            'action' => ['index'],
-            'method' => 'get',
-        ]); ?>
-
-        <?= $form->field($searchModel, 'global_search') ?>
-
-        <div class="form-group">
-            <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-            <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
-        </div>
-
-        <?php ActiveForm::end(); ?>
-
-    </div>
-
+    <?php
+    echo Collapse::widget([
+        'items' => [
+            [
+                'label' => 'Global search',
+                'content' => $this->render('_global_search', ['model' => $searchModel]),
+            ],
+        ]
+    ]); ?>
 
     <?php
     echo Collapse::widget([

@@ -23,9 +23,13 @@ use yii\helpers\Url;
 
     <?php // $form->field($model, 'id') ?>
 
+    <div class="col-sm-12">
+
     <?= $form->field($model, 'title') ?>
 
     <?= $form->field($model, 'author') ?>
+
+    </div>
 
     <div class="col-md-6 col-lg-6 col-sm-12">
 
@@ -113,9 +117,13 @@ use yii\helpers\Url;
 
     </div>
 
+    <div class="col-sm-12">
+
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+    </div>
+
     </div>
 
     <?php ActiveForm::end(); ?>
