@@ -16,7 +16,7 @@ class ReportController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'popular-books', 'popular-categories', 'popular-subcategories'],
+                        'actions' => ['index', 'popular-books', 'popular-books-grid', 'popular-categories', 'popular-subcategories'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
@@ -77,6 +77,30 @@ class ReportController extends \yii\web\Controller
                         INNER JOIN sub_category AS sc ON i.sub_category_id = sc.id
                         WHERE year(initial_loan) = year(current_timestamp) AND month(initial_loan) = month(current_timestamp)
                         GROUP BY sc.name
+                        ORDER BY COUNT(item_id) DESC');
+
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        return $this->render('view', [
+            'dataProvider' => $provider,
+            'title' => 'Popular Categories'
+        ]);
+    }
+
+    public function actionPopularBooksGrid()
+    {
+        $query = new Query();
+        $query->select('i.id, i.title, COUNT(item_id) AS Count
+                        FROM loan AS l
+                        INNER JOIN item AS i ON l.item_id = i.id
+                        INNER JOIN category AS c ON i.category_id = c.id
+                        WHERE year(initial_loan) = year(current_timestamp) AND month(initial_loan) = month(current_timestamp)
+                        GROUP BY i.id, i.title
                         ORDER BY COUNT(item_id) DESC');
 
         $provider = new ActiveDataProvider([

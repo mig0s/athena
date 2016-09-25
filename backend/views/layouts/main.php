@@ -57,6 +57,7 @@ AppAsset::register($this);
             ['label' => 'Popular Books', 'url' => ['report/popular-books']],
             ['label' => 'Popular Categories', 'url' => ['report/popular-categories']],
             ['label' => 'Popular Subcategories', 'url' => ['report/popular-subcategories']],
+            ['label' => 'Popular Books (Grid)', 'url' => ['report/popular-books-grid']],
         ]];
 
         $menuItems[] = ['label' => 'Settings', 'items' => [
