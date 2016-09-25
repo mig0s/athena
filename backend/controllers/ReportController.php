@@ -71,12 +71,12 @@ class ReportController extends \yii\web\Controller
     public function actionPopularSubcategories()
     {
         $query = new Query();
-        $query->select('c.name, COUNT(item_id) AS Count
+        $query->select('sc.name, COUNT(item_id) AS Count
                         FROM loan AS l
                         INNER JOIN item AS i ON l.item_id = i.id
-                        INNER JOIN sub_category AS c ON i.sub_category_id = c.id
+                        INNER JOIN sub_category AS sc ON i.sub_category_id = sc.id
                         WHERE year(initial_loan) = year(current_timestamp) AND month(initial_loan) = month(current_timestamp)
-                        GROUP BY c.name
+                        GROUP BY sc.name
                         ORDER BY COUNT(item_id) DESC');
 
         $provider = new ActiveDataProvider([

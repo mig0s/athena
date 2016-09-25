@@ -36,6 +36,23 @@ $this->title = $title;
             'firstPageLabel' => 'First',
             'lastPageLabel'  => 'Last'
         ],
+        'exportConfig' => [
+            'html' => [
+                'filename' => str_replace(' ', '_', $title).'_'.date('Y-m-d')
+            ],
+            'txt' => [
+                'filename' => str_replace(' ', '_', $title).'_'.date('Y-m-d')
+            ],
+            'xls' => [
+                'filename' => str_replace(' ', '_', $title).'_'.date('Y-m-d')
+            ],
+            'pdf' => [
+                'filename' => str_replace(' ', '_', $title).'_'.date('Y-m-d'),
+                'config' => [
+                    'contentBefore' => '<h1>'.$title.'</h1>'
+                ]
+            ],
+        ]
     ])
 
     ?>

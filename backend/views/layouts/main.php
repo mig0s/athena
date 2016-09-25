@@ -55,6 +55,8 @@ AppAsset::register($this);
 
         $menuItems[] = ['label' => 'Reports', 'items' => [
             ['label' => 'Popular Books', 'url' => ['report/popular-books']],
+            ['label' => 'Popular Categories', 'url' => ['report/popular-categories']],
+            ['label' => 'Popular Subcategories', 'url' => ['report/popular-subcategories']],
         ]];
 
         $menuItems[] = ['label' => 'Settings', 'items' => [
