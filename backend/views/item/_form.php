@@ -92,6 +92,7 @@ $model->sub_category_id = str_pad((string)$model->sub_category_id, 6, "0", STR_P
     <?= $form->field($model, 'category_id')->widget(DepDrop::className(), [
         'type' => DepDrop::TYPE_SELECT2,
         'data'=>$model->categoryList,
+        'options' => ['placeholder' => 'Select ...'],
         'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
         'pluginOptions'=>[
             'depends'=>['item-collection_id'],
@@ -103,6 +104,7 @@ $model->sub_category_id = str_pad((string)$model->sub_category_id, 6, "0", STR_P
     <?= $form->field($model, 'sub_category_id')->widget(DepDrop::className(), [
         'type' => DepDrop::TYPE_SELECT2,
         'data'=>$model->subCategoryList,
+        'options' => ['placeholder' => 'Select ...'],
         'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
         'pluginOptions'=>[
             'depends'=>['item-category_id'],

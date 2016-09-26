@@ -84,16 +84,18 @@ use yii\helpers\Url;
         ]) ?>
 
         <?= $form->field($model, 'collection_id')->widget(Select2::className(), [
-            'data' => ArrayHelper::map(Collection::find()->asArray()->all(), 'id', 'name'),
+            'data' => $model->collectionList,
             'options' => ['placeholder' => 'Select ...'],
             'pluginOptions'=>['allowClear'=>true],
         ]) ?>
 
         <?= $form->field($model, 'category_id')->widget(DepDrop::className(), [
             'type' => DepDrop::TYPE_SELECT2,
+            //'data' => $model->categoryList,
+            'options' => ['placeholder' => 'Select ...'],
             'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
             'pluginOptions'=>[
-                'depends'=>['item-collection_id'],
+                'depends'=>['itemsearch-collection_id'],
                 'url'=> Url::to(['item/child-category']),
                 'loadingText' => 'Loading categories',
             ]
@@ -101,9 +103,11 @@ use yii\helpers\Url;
 
         <?= $form->field($model, 'sub_category_id')->widget(DepDrop::className(), [
             'type' => DepDrop::TYPE_SELECT2,
+            //'data' => $model->subCategoryList,
+            'options' => ['placeholder' => 'Select ...'],
             'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
             'pluginOptions'=>[
-                'depends'=>['item-category_id'],
+                'depends'=>['itemsearch-category_id'],
                 'url'=> Url::to(['item/child-sub-category']),
                 'loadingText' => 'Loading categories',
             ]
