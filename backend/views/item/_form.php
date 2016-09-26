@@ -12,6 +12,9 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model common\models\Item */
 /* @var $form yii\widgets\ActiveForm */
+$model->collection_id = str_pad((string)$model->collection_id, 6, "0", STR_PAD_LEFT);
+$model->category_id = str_pad((string)$model->category_id, 6, "0", STR_PAD_LEFT);
+$model->sub_category_id = str_pad((string)$model->sub_category_id, 6, "0", STR_PAD_LEFT);
 ?>
 
 <div class="item-form row">
@@ -81,15 +84,14 @@ use yii\helpers\Url;
     ]) ?>
 
     <?= $form->field($model, 'collection_id')->widget(Select2::className(), [
-        'data'=>[$model->collection_id => $model->collection->name, ArrayHelper::map(Collection::find()->asArray()->all(), 'id', 'name')],
-        //'data' => ,
+        'data'=>$model->CollectionList,
         'options' => ['placeholder' => 'Select ...'],
         'pluginOptions'=>['allowClear'=>true],
-    ]) ?>
+    ]); ?>
 
     <?= $form->field($model, 'category_id')->widget(DepDrop::className(), [
         'type' => DepDrop::TYPE_SELECT2,
-        'data'=>[$model->category_id => $model->category->name],
+        'data'=>$model->categoryList,
         'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
         'pluginOptions'=>[
             'depends'=>['item-collection_id'],
@@ -100,7 +102,7 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'sub_category_id')->widget(DepDrop::className(), [
         'type' => DepDrop::TYPE_SELECT2,
-        'data'=>[$model->sub_category_id => $model->subCategory->name],
+        'data'=>$model->subCategoryList,
         'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
         'pluginOptions'=>[
             'depends'=>['item-category_id'],
