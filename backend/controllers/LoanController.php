@@ -12,16 +12,12 @@ use common\models\ValueHelpers;
 use Yii;
 use common\models\Loan;
 use backend\models\search\LoanSearch;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\db\Query;
 use common\models\ReturnDate;
 use DateTime;
-use DatePeriod;
-use DateInterval;
 use yii\filters\AccessControl;
 
 /**
@@ -39,7 +35,7 @@ class LoanController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create', 'update','delete', 'view', 'index'],
+                        'actions' => ['create', 'update','delete', 'view', 'index', 'renew', 'return'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
@@ -107,14 +103,14 @@ class LoanController extends Controller
 
             $model->return_date = $calcReturn->getDate()->modify('+ 1 day')->format('Y-m-d');
 
-            if ((PermissionHelpers::loanPermission($user, $item)) && ($model->save())) {
+            if ((PermissionHelpers::loanPermission($user, $item)) && ValueHelpers::isAvailableForLoan($item, $user) && ($model->save())) {
 
                 $item->item_status_id = 5;
                 $item->update();
 
                 return $this->redirect(['view', 'id' => $model->id]);
 
-            } elseif (!(PermissionHelpers::loanPermission($user, $item))) {
+            } else {
 
                 throw new ForbiddenHttpException('Item is not Available and/or this User is not allowed to borrow this item!');
             }

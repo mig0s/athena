@@ -81,13 +81,15 @@ use yii\helpers\Url;
     ]) ?>
 
     <?= $form->field($model, 'collection_id')->widget(Select2::className(), [
-        'data' => ArrayHelper::map(Collection::find()->asArray()->all(), 'id', 'name'),
+        'data'=>[$model->collection_id => $model->collection->name, ArrayHelper::map(Collection::find()->asArray()->all(), 'id', 'name')],
+        //'data' => ,
         'options' => ['placeholder' => 'Select ...'],
         'pluginOptions'=>['allowClear'=>true],
     ]) ?>
 
     <?= $form->field($model, 'category_id')->widget(DepDrop::className(), [
         'type' => DepDrop::TYPE_SELECT2,
+        'data'=>[$model->category_id => $model->category->name],
         'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
         'pluginOptions'=>[
             'depends'=>['item-collection_id'],
@@ -98,6 +100,7 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'sub_category_id')->widget(DepDrop::className(), [
         'type' => DepDrop::TYPE_SELECT2,
+        'data'=>[$model->sub_category_id => $model->subCategory->name],
         'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
         'pluginOptions'=>[
             'depends'=>['item-category_id'],

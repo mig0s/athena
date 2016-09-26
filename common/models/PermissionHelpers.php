@@ -89,7 +89,8 @@ class PermissionHelpers
 
         if (($item->item_status_id == 1 || $item->item_status_id == 2) &&
             ($spot_tag->allowance == 1) &&
-            ($userType->user_type_value >= $spot_tag->minimum_user_type)) {
+            ($userType->user_type_value >= $spot_tag->minimum_user_type) &&
+            ($user->status_id == 1)) {
             return true;
         } else {
             return false;

@@ -103,9 +103,29 @@ class ValueHelpers
 
     }
 
-    public static function isAvailable($item)
+    public static function isAvailableForReservation($item)
     {
-        return Item::findOne($item)->item_status_id == 1 ? true : false;
+        return $item->item_status_id == 5 ? true : false;
+    }
+
+    public static function isAvailableForLoan($item, $user = null)
+    {
+        if (is_null($user)) {
+            return $item->item_status_id == 1 ? true : false;
+        } elseif ($item->item_status_id == 5) {
+            $connection = \Yii::$app->db;
+            $sql = "SELECT id FROM loan WHERE user_id=:userid AND item_id=:item_id";
+            $command = $connection->createCommand($sql);
+            $command->bindValue(":userid", $user);
+            $command->bindValue(":item_id", $item->id);
+            if($result = $command->queryOne()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }
 

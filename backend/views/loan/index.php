@@ -10,6 +10,7 @@ use kartik\grid\GridView;
 
 $this->title = 'Loans';
 $this->params['breadcrumbs'][] = $this->title;
+$dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
 ?>
 <div class="loan-index">
 

@@ -81,24 +81,22 @@ class ReservationController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($item)
+    public function actionCreate()
     {
         $model = new Reservation();
-        if (ValueHelpers::isAvailable($item)) {
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                $record = Item::findOne($item);
-                $record->item_status_id = 2;
-                $record->update();
+        if ($model->load(Yii::$app->request->post())) {
+            $item = Item::findOne(Yii::$app->request->post('item_id'));
+            if (ValueHelpers::isAvailableForReservation($item) && $model->save()) {
+                $item->item_status_id = 2;
+                $item->update();
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
-                return $this->render('create', [
-                    'model' => $model,
-                    'item_id' => $item,
-                ]);
+                throw new ForbiddenHttpException('Item is not available for reservation!');
             }
-        }
-        else {
-            throw new ForbiddenHttpException('The item is not available!');
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
     }
 

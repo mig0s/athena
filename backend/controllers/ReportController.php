@@ -100,8 +100,8 @@ class ReportController extends \yii\web\Controller
                         INNER JOIN item AS i ON l.item_id = i.id
                         INNER JOIN category AS c ON i.category_id = c.id
                         WHERE year(initial_loan) = year(current_timestamp) AND month(initial_loan) = month(current_timestamp)
-                        GROUP BY i.id, i.title
-                        ORDER BY COUNT(item_id) DESC');
+                        GROUP BY i.title
+                        ORDER BY COUNT(item_id) DESC'); // removed from GROUP BY: i.id
 
         $provider = new ActiveDataProvider([
             'query' => $query,
