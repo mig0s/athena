@@ -66,19 +66,19 @@ $model->sub_category_id = str_pad((string)$model->sub_category_id, 6, "0", STR_P
     <?= $form->field($model, 'accompanying_materials')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'subject_id')->widget(Select2::className(), [
-        'data' => $model->getSubjectList(),
+        'data' => $model->subjectList,
         'options' => ['placeholder' => 'Select ...'],
         'pluginOptions'=>['allowClear'=>true],
     ])  ?>
 
     <?= $form->field($model, 'spot_tag_id')->widget(Select2::className(), [
-        'data' => $model->getSpotTagList(),
+        'data' => $model->spotTagList,
         'options' => ['placeholder' => 'Select ...'],
         'pluginOptions'=>['allowClear'=>true],
     ])  ?>
 
     <?= $form->field($model, 'location_id')->widget(Select2::className(), [
-        'data' => $model->getLocationList(),
+        'data' => $model->locationList,
         'options' => ['placeholder' => 'Select ...'],
         'pluginOptions'=>['allowClear'=>true],
     ]) ?>
