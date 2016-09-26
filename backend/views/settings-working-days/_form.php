@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'venue_id')->textInput() ?>
 
-    <?= $form->field($model, 'day')->textInput() ?>
+    <?= $form->field($model, 'day')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'is_working')->textInput(['maxlength' => true]) ?>
 

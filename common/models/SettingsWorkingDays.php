@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $venue_id
- * @property integer $day
+ * @property string $day
  * @property string $is_working
  * @property string $open_at
  * @property string $closed_at
@@ -33,7 +33,8 @@ class SettingsWorkingDays extends \yii\db\ActiveRecord
     {
         return [
             [['venue_id', 'day', 'is_working'], 'required'],
-            [['venue_id', 'day'], 'integer'],
+            [['venue_id'], 'integer'],
+            [['day'], 'string'],
             [['open_at', 'closed_at'], 'safe'],
             [['is_working'], 'string', 'max' => 1],
             [['venue_id'], 'exist', 'skipOnError' => true, 'targetClass' => SettingsVenues::className(), 'targetAttribute' => ['venue_id' => 'id']],

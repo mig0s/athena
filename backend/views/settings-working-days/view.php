@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'venue_id',
-            'day',
+            'day:ntext',
             'is_working',
             'open_at',
             'closed_at',

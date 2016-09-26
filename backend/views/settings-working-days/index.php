@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Settings Working Days', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Add Working Day', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,12 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'venue_id',
-            'day',
-            'is_working',
+            //'id',
+            'venue.name',
+            'day:ntext',
+            'is_working:boolean',
             'open_at',
-            // 'closed_at',
+            'closed_at',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

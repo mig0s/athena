@@ -73,6 +73,9 @@ AppAsset::register($this);
             ['label' => 'Spot Tags', 'url' => ['spot-tag/index']],
             ['label' => 'Fines' ,'url' => ['fine/index']],
             ['label' => 'Loan Statuses' ,'url' => ['loan-status/index']],
+            ['label' => 'Working Days' ,'url' => ['settings-working-days/index']],
+            ['label' => 'Holidays' ,'url' => ['settings-holidays/index']],
+            ['label' => 'Venues' ,'url' => ['settings-venues/index']],
         ]];
     }
     if (Yii::$app->user->isGuest) {

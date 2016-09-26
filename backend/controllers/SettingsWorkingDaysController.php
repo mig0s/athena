@@ -8,8 +8,6 @@ use backend\models\search\SettingsWorkingDaysSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use common\models\PermissionHelpers;
 
 /**
  * SettingsWorkingDaysController implements the CRUD actions for SettingsWorkingDays model.
@@ -22,19 +20,6 @@ class SettingsWorkingDaysController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['create', 'update','delete', 'view', 'index'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                            return PermissionHelpers::requireMinimumRole('Admin') && PermissionHelpers::requireStatus('Active');
-                        }
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -119,6 +104,11 @@ class SettingsWorkingDaysController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function getIsWorkingLabel()
+    {
+        return $this->is_working ? 'Yes' : 'No';
     }
 
     /**

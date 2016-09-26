@@ -18,8 +18,8 @@ class SettingsWorkingDaysSearch extends SettingsWorkingDays
     public function rules()
     {
         return [
-            [['id', 'venue_id', 'day'], 'integer'],
-            [['is_working', 'open_at', 'closed_at'], 'safe'],
+            [['id', 'venue_id'], 'integer'],
+            [['day', 'is_working', 'open_at', 'closed_at'], 'safe'],
         ];
     }
 
@@ -61,12 +61,12 @@ class SettingsWorkingDaysSearch extends SettingsWorkingDays
         $query->andFilterWhere([
             'id' => $this->id,
             'venue_id' => $this->venue_id,
-            'day' => $this->day,
             'open_at' => $this->open_at,
             'closed_at' => $this->closed_at,
         ]);
 
-        $query->andFilterWhere(['like', 'is_working', $this->is_working]);
+        $query->andFilterWhere(['like', 'day', $this->day])
+            ->andFilterWhere(['like', 'is_working', $this->is_working]);
 
         return $dataProvider;
     }
