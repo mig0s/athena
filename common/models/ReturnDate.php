@@ -6,6 +6,7 @@ use DateTime;
 use yii\helpers\ArrayHelper;
 use DatePeriod;
 use DateInterval;
+use common\models\SettingsWorkingDays;
 
 class ReturnDate
 {
@@ -20,15 +21,22 @@ class ReturnDate
 
     /**
      * @param DateTime   $startDate       Date to start calculations from
+     * @var $venue_id    int              Venue Id
      */
-    public function __construct(DateTime $startDate) {
+    public function __construct(DateTime $startDate, $venue_id) {
 
         $holidays = SettingsHolidays::find()->asArray()->where('start_date > NOW()')->all();
         $holidays = ArrayHelper::map($holidays, 'start_date', 'duration');
 
         $skipDays = array();
 
-        $nonBusinessDays = array(7); //TODO: add dynamic business days
+        $nonBusinessDays = array();
+
+        $weekends = ArrayHelper::map(SettingsWorkingDays::find()->asArray()->where('is_working = 0')->all(), 'id', 'day');
+        foreach ($weekends as $weekend) {
+            $weekend = date("N", strtotime($weekend));
+            $nonBusinessDays[] = $weekend;
+        }
 
         foreach ($holidays as $holiday => $holidayDuration) {
             $holidayStart = new DateTime($holiday);

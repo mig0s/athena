@@ -112,9 +112,11 @@ class ValueHelpers
     {
         if (is_null($user)) {
             return $item->item_status_id == 1 ? true : false;
+        } elseif ($item->item_status_id == 1) {
+            return true;
         } elseif ($item->item_status_id == 5) {
             $connection = \Yii::$app->db;
-            $sql = "SELECT id FROM loan WHERE user_id=:userid AND item_id=:item_id";
+            $sql = "SELECT id FROM reservation WHERE user_id=:userid AND item_id=:item_id";
             $command = $connection->createCommand($sql);
             $command->bindValue(":userid", $user);
             $command->bindValue(":item_id", $item->id);

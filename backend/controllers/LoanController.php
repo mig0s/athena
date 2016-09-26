@@ -94,7 +94,8 @@ class LoanController extends Controller
             $user = User::findOne($loan['user_id']);
 
             $calcReturn = new ReturnDate(
-                new DateTime()
+                new DateTime(),
+                $item->location_id
             );
 
             $loanDuration = SpotTag::findOne($item->spot_tag_id)->loan_duration;
@@ -164,7 +165,9 @@ class LoanController extends Controller
 
         $model = $this->findModel($id);
 
-        if (!(is_null($model->renewal_count)) && ($model->renewal_count >= SpotTag::findOne(Item::findOne($model->item_id))->renewal_limit)) {
+        $item = Item::findOne($model->item_id);
+
+        if (!(is_null($model->renewal_count)) && ($model->renewal_count >= SpotTag::findOne($item->spot_tag_id)->renewal_limit)) {
             throw new ForbiddenHttpException('Renewal limit of this item has been reached by the user!');
         } else {
 
@@ -176,11 +179,7 @@ class LoanController extends Controller
                 $model->renewal_count = 0;
             }
 
-            $calcReturn = new ReturnDate(
-                date_create_from_format('Y-m-d', $model->return_date) // Today
-            // [$skipDays], //new DateTime("2014-06-01"), new DateTime("2014-06-02")
-            // [ReturnDate::SATURDAY]
-            );
+            $calcReturn = new ReturnDate(date_create_from_format('Y-m-d', $model->return_date), $item->location_id);
 
             $calcReturn->addBusinessDays($loanDuration);
 
