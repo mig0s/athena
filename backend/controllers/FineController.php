@@ -2,7 +2,12 @@
 
 namespace backend\controllers;
 
+use backend\models\UserType;
+use common\models\Item;
 use common\models\Loan;
+use common\models\SpotTag;
+use common\models\SpotTagCharges;
+use common\models\User;
 use Yii;
 use common\models\Fine;
 use backend\models\search\FineSearch;
@@ -98,7 +103,12 @@ class FineController extends Controller
                 $overdue++;
             }
 
-            $amount = $overdue * 0.5; // TODO: add dynamic fine rate
+            $user_type = UserType::findOne(User::findOne($loan->user_id)->user_type_id);
+            $spot_tag = SpotTag::findOne(Item::findOne($loan->item_id)->spot_tag_id);
+
+            $amount = SpotTagCharges::findOne(['user_type_id' => $user_type, 'spot_tag_id' => $spot_tag]);
+
+            $amount = $overdue * $amount->amount / 100;
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 $model->waived_by = Yii::$app->user->id;

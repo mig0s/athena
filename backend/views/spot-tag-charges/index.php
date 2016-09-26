@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\SpotTagChargesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -24,9 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'user_type_id',
-            'spot_tag_id',
+            //'id',
+            'userType.user_type_name',
+            'spotTag.colour',
             'amount',
 
             ['class' => 'yii\grid\ActionColumn'],
