@@ -1,23 +1,18 @@
 <?php
 
 namespace backend\controllers;
-//TODO: testing
+
 use Yii;
-use common\models\Reservation;
-use backend\models\search\ReservationSearch;
+use common\models\SpotTagCharges;
+use backend\models\search\SpotTagChargesSearch;
 use yii\web\Controller;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\Item;
-use yii\filters\AccessControl;
-use common\models\PermissionHelpers;
-use common\models\ValueHelpers;
 
 /**
- * ReservationController implements the CRUD actions for Reservation model.
+ * SpotTagChargesController implements the CRUD actions for SpotTagCharges model.
  */
-class ReservationController extends Controller
+class SpotTagChargesController extends Controller
 {
     /**
      * @inheritdoc
@@ -25,19 +20,6 @@ class ReservationController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['create', 'update','delete', 'view', 'index'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                            return PermissionHelpers::requireMinimumRole('Admin') && PermissionHelpers::requireStatus('Active');
-                        }
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -48,12 +30,12 @@ class ReservationController extends Controller
     }
 
     /**
-     * Lists all Reservation models.
+     * Lists all SpotTagCharges models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ReservationSearch();
+        $searchModel = new SpotTagChargesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -63,7 +45,7 @@ class ReservationController extends Controller
     }
 
     /**
-     * Displays a single Reservation model.
+     * Displays a single SpotTagCharges model.
      * @param integer $id
      * @return mixed
      */
@@ -75,23 +57,16 @@ class ReservationController extends Controller
     }
 
     /**
-     * Creates a new Reservation model.
+     * Creates a new SpotTagCharges model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Reservation();
+        $model = new SpotTagCharges();
 
-        if ($model->load(Yii::$app->request->post())) {
-            $item = Item::findOne(Yii::$app->request->post('item_id'));
-            if ((ValueHelpers::isAvailableForReservation($item)) && $model->save()) {
-                $item->item_status_id = 2;
-                $item->update();
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                throw new ForbiddenHttpException('Item is not available for reservation!');
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -100,7 +75,7 @@ class ReservationController extends Controller
     }
 
     /**
-     * Updates an existing Reservation model.
+     * Updates an existing SpotTagCharges model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -119,7 +94,7 @@ class ReservationController extends Controller
     }
 
     /**
-     * Deletes an existing Reservation model.
+     * Deletes an existing SpotTagCharges model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -132,15 +107,15 @@ class ReservationController extends Controller
     }
 
     /**
-     * Finds the Reservation model based on its primary key value.
+     * Finds the SpotTagCharges model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Reservation the loaded model
+     * @return SpotTagCharges the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Reservation::findOne($id)) !== null) {
+        if (($model = SpotTagCharges::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
