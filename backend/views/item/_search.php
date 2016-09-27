@@ -93,7 +93,7 @@ use yii\helpers\Url;
             'type' => DepDrop::TYPE_SELECT2,
             //'data' => $model->categoryList,
             'options' => ['placeholder' => 'Select ...'],
-            'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+            'select2Options'=>['pluginOptions'=>['allowClear'=>true], 'options' => ['placeholder' => 'Select ...']],
             'pluginOptions'=>[
                 'depends'=>['itemsearch-collection_id'],
                 'url'=> Url::to(['item/child-category']),
@@ -105,7 +105,7 @@ use yii\helpers\Url;
             'type' => DepDrop::TYPE_SELECT2,
             //'data' => $model->subCategoryList,
             'options' => ['placeholder' => 'Select ...'],
-            'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+            'select2Options'=>['pluginOptions'=>['allowClear'=>true], 'options' => ['placeholder' => 'Select ...']],
             'pluginOptions'=>[
                 'depends'=>['itemsearch-category_id'],
                 'url'=> Url::to(['item/child-sub-category']),

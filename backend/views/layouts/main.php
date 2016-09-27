@@ -58,6 +58,7 @@ AppAsset::register($this);
             ['label' => 'Popular Categories', 'url' => ['report/popular-categories']],
             ['label' => 'Popular Subcategories', 'url' => ['report/popular-subcategories']],
             ['label' => 'Popular Books (Grid)', 'url' => ['report/popular-books-grid']],
+            ['label' => 'Overdue Items', 'url' => ['report/overdue-items']],
         ]];
 
         $menuItems[] = ['label' => 'Settings', 'items' => [
