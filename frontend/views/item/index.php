@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap\Collapse;
 
@@ -27,6 +27,8 @@ $url = ['reservation/create?item='.'id'];
     ]); ?>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'responsive' => true,
+        'responsiveWrap' => false,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
@@ -72,6 +74,12 @@ $url = ['reservation/create?item='.'id'];
                     },
                 ],
             ],
+        ],
+        'hover' => true,
+        'resizableColumns'=>true,
+        'pager' => [
+            'firstPageLabel' => 'First',
+            'lastPageLabel'  => 'Last'
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

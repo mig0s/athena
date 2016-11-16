@@ -110,6 +110,7 @@ $pdfFooter = array(
             ],
         ],
         'responsive' => true,
+        'responsiveWrap' => false,
         'hover' => true,
         'resizableColumns'=>true,
         'resizeStorageKey'=>Yii::$app->user->id . '-' . date("m"),

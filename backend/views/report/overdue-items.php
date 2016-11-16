@@ -51,7 +51,7 @@ $pdfFooter = array(
             'heading'=>'<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> '.$title.'</h3>',
             'type'=>'warning',
             'before'=>Html::a('<i class="glyphicon glyphicon-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-success']),
-            'after'=>Html::a('<i class="glyphicon glyphicon-envelope"></i> Send E-mail notifications to all', ['index'], ['class' => 'btn btn-info']),
+            'after'=>Html::a('<i class="glyphicon glyphicon-envelope"></i> Send E-mail notifications to all', ['send-notifications'], ['class' => 'btn btn-info']),
             'footer'=>false
         ],
         'responsive' => true,

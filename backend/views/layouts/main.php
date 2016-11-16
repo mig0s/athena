@@ -43,6 +43,7 @@ AppAsset::register($this);
             ['label' => 'Items', 'url' => ['item/index']],
             ['label' => 'Loans', 'url' => ['loan/index']],
             ['label' => 'Reservations', 'url' => ['reservation/index']],
+            ['label' => 'Fines' ,'url' => ['fine/index']],
         ]];
 
         $menuItems[] = ['label' => 'Users', 'items' => [
@@ -72,7 +73,6 @@ AppAsset::register($this);
             ['label' => 'Related items', 'url' => ['item-pair/index']],
             ['label' => 'Spot Tags', 'url' => ['spot-tag/index']],
             ['label' => 'Charge Rates' ,'url' => ['spot-tag-charges/index']],
-            ['label' => 'Fines' ,'url' => ['fine/index']],
             ['label' => 'Item Statuses', 'url' => ['item-status/index']],
             ['label' => 'Loan Statuses' ,'url' => ['loan-status/index']],
             ['label' => 'Working Days' ,'url' => ['settings-working-days/index']],

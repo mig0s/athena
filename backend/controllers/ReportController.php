@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Item;
 use common\models\User;
 use frontend\models\Profile;
 use Yii;
@@ -104,9 +105,9 @@ class ReportController extends \yii\web\Controller
                         FROM loan AS l
                         INNER JOIN item AS i ON l.item_id = i.id
                         INNER JOIN category AS c ON i.category_id = c.id
-                        WHERE year(initial_loan) = year(current_timestamp) AND month(initial_loan) = month(current_timestamp)
+                        WHERE year(l.initial_loan) = year(current_timestamp)
                         GROUP BY i.title
-                        ORDER BY COUNT(item_id) DESC'); // removed from GROUP BY: i.id
+                        ORDER BY COUNT(item_id) DESC'); // add AND month(l.initial_loan) = month(current_timestamp)
 
         $provider = new ActiveDataProvider([
             'query' => $query,
@@ -146,13 +147,12 @@ class ReportController extends \yii\web\Controller
 
     public function actionOverdueItems()
     {
-        //SELECT id, item_id, user_id, initial_loan, return_date FROM athena_structure.loan where loan_status_id = 1 and return_date < current_date();
         $query = new Query();
         $query->select('l.id, i.title, u.username, l.initial_loan, l.return_date
                         FROM loan AS l
                         INNER JOIN item AS i ON l.item_id = i.id
                         INNER JOIN user AS u ON l.user_id = u.id
-                        WHERE l.loan_status_id = 2 AND l.return_date < current_date()
+                        WHERE l.loan_status_id = 1 AND l.return_date < current_date()
                         ORDER BY l.id DESC');
 
         $provider = new ActiveDataProvider([
@@ -171,12 +171,10 @@ class ReportController extends \yii\web\Controller
 
         foreach ($loans as $loan) {
 
-            //TODO: add body with list of items & use global From, set up linking and redirects
-
-            $profile[] = User::findOne($loan['user_id'])->email;
+            $items = Item::findBySql('SELECT i.title FROM loan AS l INNER JOIN item AS i ON l.item_id = i.id WHERE loan_status_id = 2 AND user_id = '.$loan['user_id'])->asArray()->all();
 
             $messages[] = Yii::$app->mailer->compose()
-                ->setFrom('from@domain.com')
+                ->setFrom(Yii::$app->params['adminEmail'])
                 ->setTo(User::findOne($loan['user_id'])->email)
                 ->setSubject('Message subject')
                 ->setHtmlBody('<b>HTML content</b>')
@@ -184,7 +182,7 @@ class ReportController extends \yii\web\Controller
         }
 
         return $this->render('debug', [
-            'loans' => $messages
+            'loans' => $items
         ]);
 
     }

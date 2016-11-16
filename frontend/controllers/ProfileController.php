@@ -65,10 +65,9 @@ class ProfileController extends Controller
 
     /**
      * Displays a single Profile model.
-     * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView()
     {
         if ($already_exists = RecordHelpers::userHas('profile')) {
             return $this->render('view', [

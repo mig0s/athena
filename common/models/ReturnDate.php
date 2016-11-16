@@ -73,10 +73,6 @@ class ReturnDate
         }
     }
 
-    public function getDate() {
-        return $this->date;
-    }
-
     private function isBusinessDay(DateTime $date) {
         if (in_array((int)$date->format('N'), $this->nonBusinessDays)) {
             return false; //Date is a nonBusinessDay.
@@ -87,5 +83,9 @@ class ReturnDate
                 }
         }
         return true; //Date is a business day.
+    }
+
+    public function getDate() {
+        return $this->date;
     }
 }
