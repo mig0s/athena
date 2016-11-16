@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use common\models\PermissionHelpers;
 use common\models\ValueHelpers;
+use yii\filters\AccessControl;
 
 /**
  * ReservationController implements the CRUD actions for Reservation model.
@@ -26,6 +27,27 @@ class ReservationController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['view', 'index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return PermissionHelpers::requireMinimumRole('User') && PermissionHelpers::requireStatus('Active');
+                        }
+                    ],
+                    [
+                        'actions' => ['create', 'update','delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return PermissionHelpers::requireMinimumRole('Admin') && PermissionHelpers::requireStatus('Active');
+                        }
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -59,6 +81,7 @@ class ReservationController extends Controller
      * Displays a single Reservation model.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionView($id)
     {
