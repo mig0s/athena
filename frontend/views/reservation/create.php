@@ -10,6 +10,8 @@ use common\models\RecordHelpers;
 $this->title = 'Create Reservation';
 $this->params['breadcrumbs'][] = ['label' => 'Reservations', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$item_id = Yii::$app->request->get('item_id');
 $model->item_id = $item_id;
 $model->user_id = Yii::$app->user->id;
 $model->purge_date = (new DateTime())->add(new DateInterval("P2D"))->format('Y-m-d H:i:s');

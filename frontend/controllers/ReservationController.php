@@ -103,12 +103,14 @@ class ReservationController extends Controller
      * Creates a new Reservation model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @throws ForbiddenHttpException
      */
     public function actionCreate()
     {
         $model = new Reservation();
         if ($model->load(Yii::$app->request->post())) {
-            $item = Item::findOne(Yii::$app->request->post('item_id'));
+            $item = Item::findOne(Yii::$app->request->get('item_id'));
+            //var_dump(Yii::$app->request->get('item_id'));die;
             if (ValueHelpers::isAvailableForReservation($item) && $model->save()) {
                 $item->item_status_id = 2;
                 $item->update();

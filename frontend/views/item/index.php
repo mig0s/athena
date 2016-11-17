@@ -65,7 +65,7 @@ $url = ['reservation/create?item='.'id'];
                     'reserve' => function ($url, $model) {
                         return Html::a(
                             '<span class="glyphicon glyphicon-arrow-down"></span>',
-                            ['reservation/create', 'item' => $model->id],
+                            ['reservation/create', 'item_id' => $model->id],
                             [
                                 'title' => 'Reserve',
                                 'data-pjax' => '0',
