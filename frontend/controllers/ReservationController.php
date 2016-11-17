@@ -119,9 +119,7 @@ class ReservationController extends Controller
                 throw new ForbiddenHttpException('Item is not available for reservation!');
             }
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            return $this->redirect('../item');
         }
     }
 
