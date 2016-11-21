@@ -84,6 +84,7 @@ class LoanController extends Controller
      * Creates a new Loan model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @throws ForbiddenHttpException;
      */
     public function actionCreate()
     {
