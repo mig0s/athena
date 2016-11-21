@@ -27,14 +27,14 @@ $this->title = 'Athena';
 
                 <p>To browse the books in Athena Library Management you have to create an account.</p>
 
-                <p><a class="btn btn-default" href="/signup">Sign Up &raquo;</a></p>
+                <p><a class="btn btn-default" href="/site/signup">Sign Up &raquo;</a></p>
             </div>
             <div class="col-lg-4">
                 <h2>Contact Us</h2>
 
                 <p>If there is any issue with the application you can always contact the developer using the form:</p>
 
-                <p><a class="btn btn-default" href="/contact">Contact Us &raquo;</a></p>
+                <p><a class="btn btn-default" href="/site/contact">Contact Us &raquo;</a></p>
             </div>
         </div>
 
